@@ -1,9 +1,14 @@
-output "vpc_id" {
-  description = "The VPCs ID."
-  value       = module.vpc.id
+output "repository" {
+  description = "repository resource"
+  value       = try(aws_ecr_repository.repository[0], null)
 }
 
-output "vpc_arn" {
-  description = "The VPCs ARN."
-  value       = module.vpc.arn
+output "repository_policy" {
+  description = "repository policy resource"
+  value       = try(aws_ecr_repository_policy.repository_policy[0], null)
+}
+
+output "lifecycle_policy" {
+  description = "lifecycle policy resource"
+  value       = try(aws_ecr_lifecycle_policy.lifecycle_policy[0], null)
 }
