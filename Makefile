@@ -42,13 +42,13 @@ docker/pre-commit-hooks:
 		sh -c "pre-commit run -a"
 
 ## Mounts the working directory inside a new container and runs the Go tests. Requires $AWS_ACCESS_KEY_ID and $AWS_SECRET_ACCESS_KEY to be set
-docker/unit-tests:
-	@echo "${GREEN}Start running the unit tests with docker${RESET}"
-	@docker run --rm \
-		-e AWS_ACCESS_KEY_ID \
-		-e AWS_SECRET_ACCESS_KEY \
-		-v ${PWD}:${MOUNT_TARGET_DIRECTORY} \
-		${BUILD_TOOLS_DOCKER_IMAGE} \
-		go test -v -timeout 45m -parallel 128 test/terraform_aws_s3_bucket_test.go
+# docker/unit-tests:
+# 	@echo "${GREEN}Start running the unit tests with docker${RESET}"
+# 	@docker run --rm \
+# 		-e AWS_ACCESS_KEY_ID \
+# 		-e AWS_SECRET_ACCESS_KEY \
+# 		-v ${PWD}:${MOUNT_TARGET_DIRECTORY} \
+# 		${BUILD_TOOLS_DOCKER_IMAGE} \
+# 		go test -v -timeout 45m -parallel 128 test/terraform_aws_s3_bucket_test.go
 
 .PHONY: help docker/pre-commit-hooks docker/run-tests
