@@ -18,4 +18,33 @@ module "repository" {
 
   push_identities = [data.aws_caller_identity.current.arn]
   pull_identities = [data.aws_caller_identity.current.arn]
+
+  lifecycle_policy_rules = [
+    {
+      rulePriority : 1,
+      description : "Expire images older than 90 days",
+      selection : {
+        tagStatus : "any",
+        countType : "sinceImagePushed",
+        countUnit : "days",
+        countNumber : 90
+      },
+      action : {
+        type : "expire"
+      }
+    },
+    {
+      rulePriority : 2,
+      description : "Only keep the most recent 20 images",
+      selection : {
+        tagStatus : "any",
+        countType : "imageCountMoreThan",
+        countNumber : 20
+      },
+      action : {
+        type : "expire"
+      }
+    }
+  ]
+
 }

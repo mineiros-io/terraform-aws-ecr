@@ -44,7 +44,7 @@ variable "tags" {
   #   Alice     = "Bob
   # }
   #
-  default     = {}
+  default = {}
 }
 
 variable "scan_on_push" {
