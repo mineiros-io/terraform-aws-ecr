@@ -1,9 +1,10 @@
 # ---------------------------------------------------------------------------------------------------------------------
-# Create an ECR repository and grant cross account pull and push to random accounts
+# CREATE AN ECR REPOSITORY AND GRANT CROSS ACCOUNT PULL AND PUSH TO THE CURRENTLY USED ACCOUNT
 # ---------------------------------------------------------------------------------------------------------------------
+
 provider "aws" {
   version = "~> 2.45"
-  region  = "us-east-1"
+  region  = var.aws_region
 }
 
 data "aws_caller_identity" "current" {}
@@ -11,9 +12,9 @@ data "aws_caller_identity" "current" {}
 module "repository" {
   source = "../.."
 
-  name = "repository"
+  name = var.name
 
-  immutable = true
+  immutable = var.immutable
 
   push_identities = [data.aws_caller_identity.current.arn]
   pull_identities = [data.aws_caller_identity.current.arn]

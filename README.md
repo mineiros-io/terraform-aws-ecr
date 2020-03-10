@@ -7,8 +7,8 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # terraform-aws-ecr
-A [Terraform](https://www.terraform.io) 0.12 base module for
-[creating a service](https://aws.amazon.com/service/) on
+A [Terraform](https://www.terraform.io) 0.12 base module for creating an
+[Amazon Elastic Container Registry Repository (ECR)](https://aws.amazon.com/ecr/) on
 [Amazon Web Services (AWS)](https://aws.amazon.com/).
 
 - [Module Features](#module-features)
