@@ -22,9 +22,9 @@ module "repository" {
   lifecycle_policy_rules = [
     {
       rulePriority : 1,
-      description : "Expire images older than 90 days",
+      description : "Expire untagged images older than 90 days",
       selection : {
-        tagStatus : "any",
+        tagStatus : "untagged",
         countType : "sinceImagePushed",
         countUnit : "days",
         countNumber : 90
