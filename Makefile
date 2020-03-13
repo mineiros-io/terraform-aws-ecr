@@ -50,6 +50,6 @@ docker/unit-tests:
 		-e AWS_SECRET_ACCESS_KEY \
 		-v ${PWD}:${MOUNT_TARGET_DIRECTORY} \
 		${BUILD_TOOLS_DOCKER_IMAGE} \
-		go test -v -timeout 45m -parallel 128 test/ecr_repository_test.go
+		go test -v -count 1 -timeout 45m -parallel 128 test/ecr_repository_test.go
 
 .PHONY: help docker/pre-commit-hooks docker/unit-tests
