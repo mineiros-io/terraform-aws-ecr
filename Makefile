@@ -6,11 +6,15 @@ BUILD_TOOLS_DOCKER_REPO = mineiros/build-tools
 
 # Set default value for environment variable if there aren't set already
 ifndef BUILD_TOOLS_VERSION
-	BUILD_TOOLS_VERSION := latest
+	BUILD_TOOLS_VERSION := e6b56c1
 endif
 
 ifndef BUILD_TOOLS_DOCKER_IMAGE
 	BUILD_TOOLS_DOCKER_IMAGE := ${BUILD_TOOLS_DOCKER_REPO}:${BUILD_TOOLS_VERSION}
+endif
+
+ifndef DOCKER_SOCKET
+	DOCKER_SOCKET := /var/run/docker.sock
 endif
 
 GREEN  := $(shell tput -Txterm setaf 2)
@@ -48,6 +52,7 @@ docker/unit-tests:
 	@docker run --rm \
 		-e AWS_ACCESS_KEY_ID \
 		-e AWS_SECRET_ACCESS_KEY \
+		-v ${DOCKER_SOCKET}:/var/run/docker.sock \
 		-v ${PWD}:${MOUNT_TARGET_DIRECTORY} \
 		${BUILD_TOOLS_DOCKER_IMAGE} \
 		go test -v -count 1 -timeout 45m -parallel 128 test/ecr_repository_test.go
