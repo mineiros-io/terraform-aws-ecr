@@ -22,6 +22,12 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "iam_user_name" {
+  description = "The name of the IAM User."
+  type        = string
+  default     = "docker"
+}
+
 variable "name" {
   description = "The name of the ECR repository."
   type        = string

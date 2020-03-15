@@ -1,5 +1,10 @@
 # ---------------------------------------------------------------------------------------------------------------------
-# CREATE AN ECR REPOSITORY AND GRANT CROSS ACCOUNT PULL AND PUSH TO THE CURRENTLY USED ACCOUNT
+# CREATE AN ECR REPOSITORY
+# This example creates an ECR repository and grants a newly created IAM User pull and push permissions for the repo.
+# ---------------------------------------------------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------------------------------------------------
+# PROVIDER CONFIGURATION
 # ---------------------------------------------------------------------------------------------------------------------
 
 provider "aws" {
@@ -7,7 +12,36 @@ provider "aws" {
   region  = var.aws_region
 }
 
-data "aws_caller_identity" "current" {}
+# ---------------------------------------------------------------------------------------------------------------------
+# IAM ACCESS MANAGEMENT
+# ---------------------------------------------------------------------------------------------------------------------
+
+resource "aws_iam_user" "docker" {
+  name = var.iam_user_name
+}
+
+resource "aws_iam_access_key" "docker" {
+  user = aws_iam_user.docker.name
+}
+
+resource "aws_iam_user_policy" "docker" {
+  user   = aws_iam_user.docker.name
+  policy = data.aws_iam_policy_document.ecr.json
+}
+
+data "aws_iam_policy_document" "ecr" {
+  statement {
+    sid     = "ECRGetAuthorizationToken"
+    effect  = "Allow"
+    actions = ["ecr:GetAuthorizationToken"]
+
+    resources = ["*"]
+  }
+}
+
+# ---------------------------------------------------------------------------------------------------------------------
+# ECR REPOSITORY
+# ---------------------------------------------------------------------------------------------------------------------
 
 module "repository" {
   source = "../.."
@@ -16,8 +50,8 @@ module "repository" {
 
   immutable = var.immutable
 
-  push_identities = [data.aws_caller_identity.current.arn]
-  pull_identities = [data.aws_caller_identity.current.arn]
+  push_identities = [aws_iam_user.docker.arn]
+  pull_identities = [aws_iam_user.docker.arn]
 
   lifecycle_policy_rules = [
     {

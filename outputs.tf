@@ -3,14 +3,19 @@ output "repository" {
   value       = try(aws_ecr_repository.repository[0], null)
 }
 
-output "repository_url" {
-  description = "The URL of the repository."
-  value       = try(aws_ecr_repository.repository[0].repository_url, null)
-}
-
 output "repository_arn" {
   description = "The ARN of the repository."
   value       = try(aws_ecr_repository.repository[0].arn, null)
+}
+
+output "repository_id" {
+  description = "The Id of the repository."
+  value       = try(aws_ecr_repository.repository[0].id, null)
+}
+
+output "repository_url" {
+  description = "The URL of the repository."
+  value       = try(aws_ecr_repository.repository[0].repository_url, null)
 }
 
 output "repository_policy" {

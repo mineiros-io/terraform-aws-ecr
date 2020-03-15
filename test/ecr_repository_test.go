@@ -27,6 +27,9 @@ import (
 	"github.com/aws/aws-sdk-go/service/ecr"
 )
 
+const OutputAwsAccessKeyID = "aws_iam_access_key_id"
+const OutputAwsAccessKeySecret = "aws_iam_access_key_secret"
+
 // Test that we can:
 // 1. Build the docker image
 // 2. Deploy the ECR repository
@@ -37,6 +40,7 @@ func TestECRRepository(t *testing.T) {
 
 	workingDir := "../examples/ecr"
 	repoName := strings.ToLower(fmt.Sprintf("ecr-repository-%s", random.UniqueId()))
+	userName := strings.ToLower(fmt.Sprintf("docker-%s", random.UniqueId()))
 	testStructure.SaveString(t, workingDir, "repoName", repoName)
 
 	// At the end of the test, destroy all created Terraform resources
@@ -48,15 +52,17 @@ func TestECRRepository(t *testing.T) {
 	testStructure.RunTestStage(t, "deploy_terraform", func() {
 		awsRegion := aws.GetRandomStableRegion(t, []string{"eu-west-1"}, nil)
 		testStructure.SaveString(t, workingDir, "awsRegion", awsRegion)
-		deployUsingTerraform(t, repoName, awsRegion, workingDir)
+		deployUsingTerraform(t, repoName, userName, awsRegion, workingDir)
 	})
 
 	// Authenticate with ECR and push the image
 	testStructure.RunTestStage(t, "docker_build_and_push", func() {
 		awsRegion := testStructure.LoadString(t, workingDir, "awsRegion")
+		awsAccessKeyID := testStructure.LoadString(t, workingDir, OutputAwsAccessKeyID)
+		awsAccessKeySecret := testStructure.LoadString(t, workingDir, OutputAwsAccessKeySecret)
 
 		// Load AWS session
-		awsSession, err := aws.NewAuthenticatedSession(awsRegion)
+		awsSession, err := aws.CreateAwsSessionWithCreds(awsRegion, awsAccessKeyID, awsAccessKeySecret)
 		if err != nil {
 			t.Fatalf("An error occurred while initializing the session %s", err)
 		}
@@ -158,12 +164,13 @@ func dockerPush(t *testing.T, client *client.Client, ecr string, authorizationTo
 }
 
 // Deploy the example using Terraform
-func deployUsingTerraform(t *testing.T, repoName string, awsRegion string, workingDir string) {
+func deployUsingTerraform(t *testing.T, repoName string, userName string, awsRegion string, workingDir string) {
 	terraformOptions := &terraform.Options{
 		TerraformDir: workingDir,
 		Vars: map[string]interface{}{
-			"aws_region": awsRegion,
-			"name":       repoName,
+			"aws_region":    awsRegion,
+			"name":          repoName,
+			"iam_user_name": userName,
 		},
 	}
 
@@ -172,6 +179,12 @@ func deployUsingTerraform(t *testing.T, repoName string, awsRegion string, worki
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.InitAndApply(t, terraformOptions)
+
+	AccessKeyID := terraform.OutputRequired(t, terraformOptions, OutputAwsAccessKeyID)
+	AccessKeySecret := terraform.OutputRequired(t, terraformOptions, OutputAwsAccessKeySecret)
+
+	testStructure.SaveString(t, workingDir, OutputAwsAccessKeyID, AccessKeyID)
+	testStructure.SaveString(t, workingDir, OutputAwsAccessKeySecret, AccessKeySecret)
 }
 
 // Undeploy the example using Terraform
