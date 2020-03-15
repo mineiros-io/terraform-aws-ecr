@@ -58,11 +58,16 @@ func TestECRRepository(t *testing.T) {
 	// Authenticate with ECR and push the image
 	testStructure.RunTestStage(t, "docker_build_and_push", func() {
 		awsRegion := testStructure.LoadString(t, workingDir, "awsRegion")
-		awsAccessKeyID := testStructure.LoadString(t, workingDir, OutputAwsAccessKeyID)
-		awsAccessKeySecret := testStructure.LoadString(t, workingDir, OutputAwsAccessKeySecret)
+
+		terraformOptions := testStructure.LoadTerraformOptions(t, workingDir)
+
+		// We pull the secrets from the outputs directly instead of saving it with `testStructure.LoadString`
+		// to prevent saving the secrets unencrypted to disk and logs
+		accessKeyID := terraform.OutputRequired(t, terraformOptions, OutputAwsAccessKeyID)
+		accessKeySecret := terraform.OutputRequired(t, terraformOptions, OutputAwsAccessKeySecret)
 
 		// Load AWS session
-		awsSession, err := aws.CreateAwsSessionWithCreds(awsRegion, awsAccessKeyID, awsAccessKeySecret)
+		awsSession, err := aws.CreateAwsSessionWithCreds(awsRegion, accessKeyID, accessKeySecret)
 		if err != nil {
 			t.Fatalf("An error occurred while initializing the session %s", err)
 		}
@@ -179,12 +184,6 @@ func deployUsingTerraform(t *testing.T, repoName string, userName string, awsReg
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.InitAndApply(t, terraformOptions)
-
-	AccessKeyID := terraform.OutputRequired(t, terraformOptions, OutputAwsAccessKeyID)
-	AccessKeySecret := terraform.OutputRequired(t, terraformOptions, OutputAwsAccessKeySecret)
-
-	testStructure.SaveString(t, workingDir, OutputAwsAccessKeyID, AccessKeyID)
-	testStructure.SaveString(t, workingDir, OutputAwsAccessKeySecret, AccessKeySecret)
 }
 
 // Undeploy the example using Terraform
