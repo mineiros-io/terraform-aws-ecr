@@ -33,7 +33,7 @@ const OutputAwsAccessKeySecret = "aws_iam_access_key_secret"
 // Test that we can:
 // 1. Build the docker image
 // 2. Deploy the ECR repository
-// 3. Authenticate with docker cli
+// 3. Authenticate to ECR with docker cli
 // 4. Push the docker image to the ECR repository
 func TestECRRepository(t *testing.T) {
 	t.Parallel()
