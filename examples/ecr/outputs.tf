@@ -3,19 +3,19 @@ output "repository" {
   value       = module.repository
 }
 
-output "repository_id" {
-  description = "The Id of the repository."
-  value       = module.repository.repository_id
+output "registry_id" {
+  description = "The registry ID where the repository was created."
+  value       = module.repository.repository.registry_id
 }
 
 output "repository_arn" {
   description = "The ARN of the repository."
-  value       = module.repository.repository_arn
+  value       = module.repository.repository.arn
 }
 
 output "repository_url" {
-  description = "The url of the ECR repository."
-  value       = module.repository.repository_url
+  description = "The URL of the repository (in the form aws_account_id.dkr.ecr.region.amazonaws.com/repositoryName)."
+  value       = module.repository.repository.repository_url
 }
 
 output "aws_iam_access_key_id" {
