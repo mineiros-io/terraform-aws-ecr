@@ -36,7 +36,15 @@ variable "immutable" {
 variable "tags" {
   type        = map(string)
   description = "(Optional) A mapping of tags to assign to the resource."
-  default     = {}
+  #
+  # Example:
+  #
+  # tags = {
+  #   CreatedAt = "2020-02-07",
+  #   Alice     = "Bob
+  # }
+  #
+  default = {}
 }
 
 variable "scan_on_push" {
@@ -47,7 +55,7 @@ variable "scan_on_push" {
 
 variable "repository_policy_statements" {
   type        = any
-  description = "(Optional) List of statements of the repository policy."
+  description = "(Optional) A list of repository policy statements."
   default     = []
 }
 

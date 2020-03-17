@@ -1,6 +1,14 @@
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# CREATE AND MANAGE AN AMAZON ELASTIC CONTAINER REGISTRY (ECR) ON AMAZON WEB SERVICES (AWS)
+# This module is used to launch and manage an private docker repository with ECR and includes:
+# - ECR Repositories
+# - Repository Policies
+# - Lifecycle Policies
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 # ---------------------------------------------------------------------------------------------------------------------
-# AWS ECR MODULE
-# Create and configure a single ECR repository.
+# CREATE THE ECR REPOSITORY
+# An ECR Repository is a private docker repository that can contain multiple version and tags of an image.
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "aws_ecr_repository" "repository" {
@@ -15,8 +23,44 @@ resource "aws_ecr_repository" "repository" {
   }
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE THE REPOSITORY POLICIES
+# Amazon ECR uses resource-based permissions to control access to repositories. Resource-based permissions let you
+# specify which IAM users or roles have access to a repository and what actions they can perform on it. By default,
+# only the repository owner has access to a repository. You can apply a policy document that allow additional
+# permissions to your repository.
+# ---------------------------------------------------------------------------------------------------------------------
+
 locals {
   policy_enabled = length(var.repository_policy_statements) > 0 || length(var.push_identities) > 0 || length(var.pull_identities) > 0
+
+  ecr_pull_actions = [
+    "ecr:BatchCheckLayerAvailability",
+    "ecr:BatchGetImage",
+    "ecr:GetAuthorizationToken",
+    "ecr:GetDownloadUrlForLayer",
+  ]
+
+  ecr_push_only_actions = [
+    "ecr:CompleteLayerUpload",
+    "ecr:GetAuthorizationToken",
+    "ecr:InitiateLayerUpload",
+    "ecr:ListImages",
+    "ecr:PutImage",
+    "ecr:UploadLayerPart",
+  ]
+
+  ecr_push_actions = concat(local.ecr_push_only_actions, local.ecr_pull_actions)
+
+  push_statement = length(var.push_identities) > 0 ? [{
+    actions     = local.ecr_push_actions
+    identifiers = var.push_identities
+  }] : []
+
+  pull_statement = length(var.pull_identities) > 0 ? [{
+    actions     = local.ecr_pull_actions
+    identifiers = var.pull_identities
+  }] : []
 }
 
 data "aws_iam_policy_document" "policy" {
@@ -77,6 +121,12 @@ locals {
   })
 }
 
+# ---------------------------------------------------------------------------------------------------------------------
+# CREATE THE ECR LIFECYCLE POLICIES
+# ECR lifecycle policies enable you to specify the lifecycle management of images in a repository.
+# A lifecycle policy is a set of one or more rules, where each rule defines an action for Amazon ECR.
+# ---------------------------------------------------------------------------------------------------------------------
+
 resource "aws_ecr_lifecycle_policy" "lifecycle_policy" {
   count = var.module_enabled && length(var.lifecycle_policy_rules) > 0 ? 1 : 0
 
@@ -84,32 +134,3 @@ resource "aws_ecr_lifecycle_policy" "lifecycle_policy" {
   policy     = local.lifecycle_policy
 }
 
-locals {
-  ecr_pull_actions = [
-    "ecr:BatchCheckLayerAvailability",
-    "ecr:BatchGetImage",
-    "ecr:GetAuthorizationToken",
-    "ecr:GetDownloadUrlForLayer",
-  ]
-
-  ecr_push_only_actions = [
-    "ecr:CompleteLayerUpload",
-    "ecr:GetAuthorizationToken",
-    "ecr:InitiateLayerUpload",
-    "ecr:ListImages",
-    "ecr:PutImage",
-    "ecr:UploadLayerPart",
-  ]
-
-  ecr_push_actions = concat(local.ecr_push_only_actions, local.ecr_pull_actions)
-
-  push_statement = length(var.push_identities) > 0 ? [{
-    actions     = local.ecr_push_actions
-    identifiers = var.push_identities
-  }] : []
-
-  pull_statement = length(var.pull_identities) > 0 ? [{
-    actions     = local.ecr_pull_actions
-    identifiers = var.pull_identities
-  }] : []
-}
