@@ -129,6 +129,8 @@ func dockerBuild(t *testing.T, repo string, version string) {
 		BuildArgs: []string{fmt.Sprintf("text=%s", text)},
 	}
 
+	// toDo: Can we instead use the API directly instead of relying on terratest? Terratest is using a local exec call
+	// for using the docker-cli and therefore requires us to install docker in our build-tools image.
 	docker.Build(t, "./", dockerOptions)
 }
 

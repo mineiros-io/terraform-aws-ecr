@@ -5,17 +5,17 @@ output "repository" {
 
 output "registry_id" {
   description = "The registry ID where the repository was created."
-  value       = module.repository.repository.registry_id
+  value       = try(module.repository.repository.registry_id, null)
 }
 
 output "repository_arn" {
   description = "The ARN of the repository."
-  value       = module.repository.repository.arn
+  value       = try(module.repository.repository.arn, null)
 }
 
 output "repository_url" {
   description = "The URL of the repository (in the form aws_account_id.dkr.ecr.region.amazonaws.com/repositoryName)."
-  value       = module.repository.repository.repository_url
+  value       = try(module.repository.repository.repository_url, null)
 }
 
 output "aws_iam_access_key_id" {
