@@ -8,8 +8,10 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/gruntwork-io/terratest/modules/aws"
+	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/random"
 
 	"context"
@@ -71,6 +73,9 @@ func TestECRRepository(t *testing.T) {
 		if err != nil {
 			t.Fatalf("An error occurred while initializing the session %s", err)
 		}
+
+		logger.Logf(t, "Waiting 30 seconds for the newly created IAM User to be globally available...")
+		time.Sleep(30 * time.Second)
 
 		authorizationDetails, err := getAuthorizationDetails(awsSession, awsRegion)
 		if err != nil {
