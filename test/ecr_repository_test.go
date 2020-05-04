@@ -8,8 +8,10 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/gruntwork-io/terratest/modules/aws"
+	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/random"
 
 	"context"
@@ -72,6 +74,9 @@ func TestECRRepository(t *testing.T) {
 			t.Fatalf("An error occurred while initializing the session %s", err)
 		}
 
+		logger.Logf(t, "Waiting 30 seconds for the newly created IAM User to be globally available...")
+		time.Sleep(30 * time.Second)
+
 		authorizationDetails, err := getAuthorizationDetails(awsSession, awsRegion)
 		if err != nil {
 			t.Fatalf("An error occurred while trying to fetch the authorization details for ecr: %s", err)
@@ -129,6 +134,8 @@ func dockerBuild(t *testing.T, repo string, version string) {
 		BuildArgs: []string{fmt.Sprintf("text=%s", text)},
 	}
 
+	// toDo: Can we instead use the API directly instead of relying on terratest? Terratest is using a local exec call
+	// for using the docker-cli and therefore requires us to install docker in our build-tools image.
 	docker.Build(t, "./", dockerOptions)
 }
 
