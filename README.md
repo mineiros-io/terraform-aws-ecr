@@ -1,12 +1,13 @@
-<img src="https://raw.githubusercontent.com/mineiros-io/brand/master/mineiros-vertial-logo-smaller-font.svg" width="200"/>
+[<img src="https://raw.githubusercontent.com/mineiros-io/brand/master/mineiros-primary-logo.svg" width="400"/>](https://mineiros.io/?ref=terraform-aws-ecr)
 
-[![Maintained by Mineiros.io](https://img.shields.io/badge/maintained%20by-mineiros.io-f32752.svg)](https://mineiros.io/?ref=terraform-aws-ecr)
 [![Build Status](https://mineiros.semaphoreci.com/badges/terraform-aws-ecr/branches/master.svg?style=shields)](https://mineiros.semaphoreci.com/projects/terraform-aws-ecr)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/mineiros-io/terraform-aws-ecr.svg?label=latest&sort=semver)](https://github.com/mineiros-io/terraform-aws-ecr/releases)
-[![Terraform Version](https://img.shields.io/badge/terraform-~%3E%200.12.20-brightgreen.svg)](https://github.com/hashicorp/terraform/releases)
-[![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+[![license](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Terraform Version](https://img.shields.io/badge/terraform-~%3E%200.12.20-623CE4.svg)](https://github.com/hashicorp/terraform/releases)
+[<img src="https://img.shields.io/badge/slack-@mineiros--community-f32752.svg?logo=slack">](https://join.slack.com/t/mineiros-community/shared_invite/zt-ehidestg-aLGoIENLVs6tvwJ11w9WGg)
 
 # terraform-aws-ecr
+
 A [Terraform](https://www.terraform.io) 0.12 base module for creating an
 [Amazon Elastic Container Registry Repository (ECR)](https://aws.amazon.com/ecr/) on
 [Amazon Web Services (AWS)](https://aws.amazon.com/).
@@ -14,14 +15,26 @@ A [Terraform](https://www.terraform.io) 0.12 base module for creating an
 - [Module Features](#module-features)
 - [Getting Started](#getting-started)
 - [Module Argument Reference](#module-argument-reference)
+  - [Top-level Arguments](#top-level-arguments)
+    - [Main Resource Configuration](#main-resource-configuration)
+    - [Extended Resource configuration](#extended-resource-configuration)
+    - [Additional configuration](#additional-configuration)
+    - [`policy_statements` Object Arguments](#policy_statements-object-arguments)
+    - [`principal` Object Arguments](#principal-object-arguments)
+    - [`lifecycle_rules` Object Arguments](#lifecycle_rules-object-arguments)
+    - [`selection` Object Arguments](#selection-object-arguments)
+    - [`action` Object Arguments](#action-object-arguments)
 - [Module Attributes Reference](#module-attributes-reference)
 - [Module Versioning](#module-versioning)
+  - [Backwards compatibility in `0.0.z` and `0.y.z` version](#backwards-compatibility-in-00z-and-0yz-version)
 - [About Mineiros](#about-mineiros)
 - [Reporting Issues](#reporting-issues)
 - [Contributing](#contributing)
+- [Makefile Targets](#makefile-targets)
 - [License](#license)
 
 ## Module Features
+
 In contrast to the plain `aws_ecr_repository` resource this module enables you to easily
 grant cross account pull or push access to the repository.
 
@@ -44,6 +57,7 @@ grant cross account pull or push access to the repository.
   Easy lifecycle rule setup
 
 ## Getting Started
+
 Most basic usage creating an ECR repository.
 To configure aws terraform provider credentials we recommend to set the environment variables
 `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` and not configure them inside `.tf`-files
@@ -65,15 +79,17 @@ module "resource" {
 ```
 
 ## Module Argument Reference
+
 See
 [variables.tf](https://github.com/mineiros-io/terraform-aws-ecr/blob/master/variables.tf)
 and
 [examples/](https://github.com/mineiros-io/terraform-aws-ecr/blob/master/examples)
 for details and use-cases.
 
-#### Top-level Arguments
+### Top-level Arguments
 
-##### Main Resource Configuration
+#### Main Resource Configuration
+
 - **`name`**: **(Required `string`, Forces new resource)**
 The name of the repository.
 
@@ -92,7 +108,8 @@ A mapping of tags to assign to the resource. Defaults to `{}`.
 Indicates whether images are scanned after being pushed to the repository (true) or not scanned (false).
 Defaults to `false`.
 
-##### Extended Resource configuration
+#### Extended Resource configuration
+
 - **[`repository_policy_statements`](#policy_statement-object-arguments)**: *(Optional `list(policy_statements)`)*
 List of statements of the repository policy.
 Default is `[]`.
@@ -101,7 +118,8 @@ Default is `[]`.
 List of lifecycle policy rules.
 Default is `[]`.
 
-##### Additional configuration
+#### Additional configuration
+
 - **`pull_identities`**: *(Optional `list(string)`)*
 List of AWS identity identifiers to grant cross account pull access to.
 Default is `[]`.
@@ -111,6 +129,7 @@ List of AWS identity identifiers to grant cross account pull and push access to.
 Default is `[]`.
 
 #### [`policy_statements`](#main-resource-configuration) Object Arguments
+
 - **`sid`**: *(Optional `string`)*
 An ID for the policy statement.
 
@@ -131,7 +150,8 @@ A nested configuration block (described below) specifying a resource (or resourc
 - **[`not_principals`](#principal-object-arguments)**: *(Optional `list(principal)`)*
 Like principals except gives resources that the statement does not apply to.
 
-##### [`principal`](#policy_statement-object-arguments) Object Arguments
+#### [`principal`](#policy_statement-object-arguments) Object Arguments
+
 - **`type`**: *(Optional `string`)*
 The type of principal. For AWS ARNs this is "AWS". For AWS services (e.g. Lambda), this is "Service".
 Default is `"AWS"`.
@@ -142,6 +162,7 @@ When type is "AWS", these are IAM user or role ARNs.
 When type is "Service", these are AWS Service roles e.g. `lambda.amazonaws.com`.
 
 #### [`lifecycle_rules`](#main-resource-configuration) Object Arguments
+
 See [Amazon ECR Lifecycle Policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html#lifecycle_policy_parameters)
 for details.
 
@@ -166,7 +187,8 @@ A `selection` object. For details see below.
 - **[`action`](#action-object-arguments)**: *(Optional `action`)*
 A `action` object. For details see below.
 
-##### [`selection`](#lifecycle_rules-object-arguments) Object Arguments
+#### [`selection`](#lifecycle_rules-object-arguments) Object Arguments
+
 - **`tagStatus`**: *(Required `string`)*
 Determines whether the lifecycle policy rule that you are adding specifies a tag for an image.
 Acceptable options are tagged, untagged, or any.
@@ -206,11 +228,13 @@ then the value is the maximum number of images that you want to retain in your r
 If the `countType` used is `"sinceImagePushed"`,
 then the value is the maximum age limit for your images.
 
-##### [`action`](#lifecycle_rules-object-arguments) Object Arguments
+#### [`action`](#lifecycle_rules-object-arguments) Object Arguments
+
 - **`type`**: *(Required `string`)*
 Specify an action type. The supported value is expire.
 
 ## Module Attributes Reference
+
 The following attributes are exported by the module:
 
 - **`repository`**: the original resource
@@ -226,46 +250,53 @@ resource containing all arguments as specified above and the other attributes as
 resource containing all arguments as specified above and the other attributes as specified below.
 
 ## Module Versioning
+
 This Module follows the principles of [Semantic Versioning (SemVer)](https://semver.org/).
 
-Given a version number `MAJOR.MINOR.PATCH`, we increment the:
-1) `MAJOR` version when we make incompatible changes,
-2) `MINOR` version when we add functionality in a backwards compatible manner, and
-3) `PATCH` version when we make backwards compatible bug fixes.
+Using the given version number of `MAJOR.MINOR.PATCH`, we apply the following constructs:
 
-#### Backwards compatibility in `0.0.z` and `0.y.z` version
-- Backwards compatibility in versions `0.0.z` is **not guaranteed** when `z` is increased. (Initial development)
-- Backwards compatibility in versions `0.y.z` is **not guaranteed** when `y` is increased. (Pre-release)
+1. Use the `MAJOR` version for incompatible changes.
+1. Use the `MINOR` version when adding functionality in a backwards compatible manner.
+1. Use the `PATCH` version when introducing backwards compatible bug fixes.
+
+### Backwards compatibility in `0.0.z` and `0.y.z` version
+
+- In the context of initial development, backwards compatibility in versions `0.0.z` is **not guaranteed** when `z` is
+  increased. (Initial development)
+- In the context of pre-release, backwards compatibility in versions `0.y.z` is **not guaranteed** when `y` is
+  increased. (Pre-release)
 
 ## About Mineiros
-Mineiros is a [DevOps as a Service](https://mineiros.io/) Company based in Berlin, Germany.
-We offer Commercial Support for all of our projects, just send us an email to [hello@mineiros.io](mailto:hello@mineiros.io).
+
+Mineiros is a [DevOps as a Service](https://mineiros.io/?ref=terraform-aws-ecr) company based in Berlin, Germany. We offer commercial support
+for all of our projects and encourage you to reach out if you have any questions or need help.
+Feel free to send us an email at [hello@mineiros.io](mailto:hello@mineiros.io).
 
 We can also help you with:
-- Terraform Modules for all types of infrastructure such as VPC's, Docker clusters,
-databases, logging and monitoring, CI, etc.
-- Complex Cloud- and Multi Cloud environments.
-- Consulting & Training on AWS, Terraform and DevOps.
+
+- Terraform modules for all types of infrastructure such as VPCs, Docker clusters, databases, logging and monitoring, CI, etc.
+- Consulting & training on AWS, Terraform and DevOps
 
 ## Reporting Issues
+
 We use GitHub [Issues](https://github.com/mineiros-io/terraform-aws-ecr/issues)
 to track community reported issues and missing features.
 
 ## Contributing
-Contributions are very welcome!
-We use [Pull Requests](https://github.com/mineiros-io/terraform-aws-ecr/pulls)
-for accepting changes.
-Please see our
-[Contribution Guidelines](https://github.com/mineiros-io/terraform-aws-ecr/blob/master/CONTRIBUTING.md)
-for full details.
 
-### Makefile Targets
+Contributions are always encouraged and welcome! For the process of accepting changes, we use
+[Pull Requests](https://github.com/mineiros-io/terraform-aws-ecr/pulls). If you'd like more information, please
+see our [Contribution Guidelines](https://github.com/mineiros-io/terraform-aws-ecr/blob/master/CONTRIBUTING.md).
+
+## Makefile Targets
+
 This repository comes with a handy
 [Makefile](https://github.com/mineiros-io/terraform-aws-ecr/blob/master/Makefile).
 Run `make help` to see details on each available target.
 
 ## License
+
 This module is licensed under the Apache License Version 2.0, January 2004.
 Please see [LICENSE](https://github.com/mineiros-io/terraform-aws-ecr/blob/master/LICENSE) for full details.
 
-Copyright &copy; 2020 Mineiros
+Copyright &copy; 2020 Mineiros GmbH
