@@ -10,7 +10,7 @@
 - [ecr/] Create an ECR Repository and attach a Lifecycle Policy.
 
 <!-- References -->
-[example/]: https://github.com/mineiros-io/terraform-aws-ecr/blob/master/examples/example
+[ecr/]: https://github.com/mineiros-io/terraform-aws-ecr/blob/master/examples/ecr
 
 [homepage]: https://mineiros.io/?ref=terraform-aws-ecr
 

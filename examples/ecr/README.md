@@ -6,11 +6,11 @@
 
 # What this example shows
 
-This example shows how to ...
+This example creates an ECR repository and attach a lifecycle policy.
 
 ## Basic usage
 
-The code in [main.tf] defines...
+The code in [main.tf] defines the following module
 
 ```hcl
 module "repository" {
@@ -60,7 +60,7 @@ module "repository" {
 
 ```bash
 git clone https://github.com/mineiros-io/terraform-aws-ecr.git
-cd terraform-aws-ecr/ecr/example
+cd terraform-aws-ecr/examples/ecr
 ```
 
 ### Initializing Terraform
