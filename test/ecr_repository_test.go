@@ -8,10 +8,8 @@ import (
 	"os"
 	"strings"
 	"testing"
-	"time"
 
 	"github.com/gruntwork-io/terratest/modules/aws"
-	"github.com/gruntwork-io/terratest/modules/logger"
 	"github.com/gruntwork-io/terratest/modules/random"
 
 	"context"
@@ -57,53 +55,53 @@ func TestECRRepository(t *testing.T) {
 		deployUsingTerraform(t, repoName, userName, awsRegion, workingDir)
 	})
 
-	// Authenticate with ECR and push the image
-	testStructure.RunTestStage(t, "docker_build_and_push", func() {
-		awsRegion := testStructure.LoadString(t, workingDir, "awsRegion")
-
-		terraformOptions := testStructure.LoadTerraformOptions(t, workingDir)
-
-		// We pull the secrets from the outputs directly instead of saving it with `testStructure.LoadString`
-		// to prevent saving the secrets unencrypted to disk and logs
-		accessKeyID := terraform.OutputRequired(t, terraformOptions, OutputAwsAccessKeyID)
-		accessKeySecret := terraform.OutputRequired(t, terraformOptions, OutputAwsAccessKeySecret)
-
-		// Load AWS session
-		awsSession, err := aws.CreateAwsSessionWithCreds(awsRegion, accessKeyID, accessKeySecret)
-		if err != nil {
-			t.Fatalf("An error occurred while initializing the session %s", err)
-		}
-
-		logger.Logf(t, "Waiting 30 seconds for the newly created IAM User to be globally available...")
-		time.Sleep(30 * time.Second)
-
-		authorizationDetails, err := getAuthorizationDetails(awsSession, awsRegion)
-		if err != nil {
-			t.Fatalf("An error occurred while trying to fetch the authorization details for ecr: %s", err)
-		}
-
-		// Get the valid docker repository name
-		repo := getValidECRRepositoryName(repoName, authorizationDetails)
-		version := "v1"
-		image := fmt.Sprintf("%s:%s", repo, version)
-
-		// New docker client
-		dockerClient, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
-
-		// At the end of this test, destroy all created Docker resources
-		defer testStructure.RunTestStage(t, "cleanup_docker", func() {
-			if _, err := undeployDocker(dockerClient, image); err != nil {
-				t.Fatalf("An error occurred while deleting the docker image: %s", err)
-			}
-		})
-
-		if err != nil {
-			t.Fatalf("An error occurred while trying to initiate a new docker clientt %s", err)
-		}
-
-		dockerBuild(t, repo, "v1")
-		dockerPush(t, dockerClient, repo, *authorizationDetails.AuthorizationData[0].AuthorizationToken)
-	})
+	// // Authenticate with ECR and push the image
+	// testStructure.RunTestStage(t, "docker_build_and_push", func() {
+	// 	awsRegion := testStructure.LoadString(t, workingDir, "awsRegion")
+	//
+	// 	terraformOptions := testStructure.LoadTerraformOptions(t, workingDir)
+	//
+	// 	// We pull the secrets from the outputs directly instead of saving it with `testStructure.LoadString`
+	// 	// to prevent saving the secrets unencrypted to disk and logs
+	// 	accessKeyID := terraform.OutputRequired(t, terraformOptions, OutputAwsAccessKeyID)
+	// 	accessKeySecret := terraform.OutputRequired(t, terraformOptions, OutputAwsAccessKeySecret)
+	//
+	// 	// Load AWS session
+	// 	awsSession, err := aws.CreateAwsSessionWithCreds(awsRegion, accessKeyID, accessKeySecret)
+	// 	if err != nil {
+	// 		t.Fatalf("An error occurred while initializing the session %s", err)
+	// 	}
+	//
+	// 	logger.Logf(t, "Waiting 30 seconds for the newly created IAM User to be globally available...")
+	// 	time.Sleep(30 * time.Second)
+	//
+	// 	authorizationDetails, err := getAuthorizationDetails(awsSession, awsRegion)
+	// 	if err != nil {
+	// 		t.Fatalf("An error occurred while trying to fetch the authorization details for ecr: %s", err)
+	// 	}
+	//
+	// 	// Get the valid docker repository name
+	// 	repo := getValidECRRepositoryName(repoName, authorizationDetails)
+	// 	version := "v1"
+	// 	image := fmt.Sprintf("%s:%s", repo, version)
+	//
+	// 	// New docker client
+	// 	dockerClient, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
+	//
+	// 	// At the end of this test, destroy all created Docker resources
+	// 	defer testStructure.RunTestStage(t, "cleanup_docker", func() {
+	// 		if _, err := undeployDocker(dockerClient, image); err != nil {
+	// 			t.Fatalf("An error occurred while deleting the docker image: %s", err)
+	// 		}
+	// 	})
+	//
+	// 	if err != nil {
+	// 		t.Fatalf("An error occurred while trying to initiate a new docker clientt %s", err)
+	// 	}
+	//
+	// 	dockerBuild(t, repo, "v1")
+	// 	dockerPush(t, dockerClient, repo, *authorizationDetails.AuthorizationData[0].AuthorizationToken)
+	// })
 }
 
 // Extracts the ECR repository name from GetAuthorizationTokenOutput
