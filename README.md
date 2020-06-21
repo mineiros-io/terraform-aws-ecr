@@ -1,16 +1,16 @@
-[<img src="https://raw.githubusercontent.com/mineiros-io/brand/3bffd30e8bdbbde32c143e2650b2faa55f1df3ea/mineiros-primary-logo.svg" width="400"/>](https://mineiros.io/?ref=terraform-aws-ecr)
+[<img src="https://raw.githubusercontent.com/mineiros-io/brand/3bffd30e8bdbbde32c143e2650b2faa55f1df3ea/mineiros-primary-logo.svg" width="400"/>][homepage]
 
-[![Build Status](https://mineiros.semaphoreci.com/badges/terraform-aws-ecr/branches/master.svg?style=shields)](https://mineiros.semaphoreci.com/projects/terraform-aws-ecr)
-[![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/mineiros-io/terraform-aws-ecr.svg?label=latest&sort=semver)](https://github.com/mineiros-io/terraform-aws-ecr/releases)
-[![license](https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Terraform Version](https://img.shields.io/badge/terraform-~%3E%200.12.20-623CE4.svg)](https://github.com/hashicorp/terraform/releases)
-[<img src="https://img.shields.io/badge/slack-@mineiros--community-f32752.svg?logo=slack">](https://join.slack.com/t/mineiros-community/shared_invite/zt-ehidestg-aLGoIENLVs6tvwJ11w9WGg)
+[![Build Status][badge-build]][build-status]
+[![GitHub tag (latest SemVer)][badge-semver]][releases-github]
+[![license][badge-license]][apache20]
+[![Terraform Version][badge-terraform]][releases-terraform]
+[![Join Slack][badge-slack]][slack]
 
 # terraform-aws-ecr
 
-A [Terraform](https://www.terraform.io) 0.12 base module for creating an
-[Amazon Elastic Container Registry Repository (ECR)](https://aws.amazon.com/ecr/) on
-[Amazon Web Services (AWS)](https://aws.amazon.com/).
+A [Terraform] 0.12 module for creating an
+[Amazon Elastic Container Registry Repository (ECR)][ECR] on
+[Amazon Web Services (AWS)][AWS].
 
 - [Module Features](#module-features)
 - [Getting Started](#getting-started)
@@ -25,6 +25,7 @@ A [Terraform](https://www.terraform.io) 0.12 base module for creating an
     - [`selection` Object Arguments](#selection-object-arguments)
     - [`action` Object Arguments](#action-object-arguments)
 - [Module Attributes Reference](#module-attributes-reference)
+- [External Documentation](#external-documentation)
 - [Module Versioning](#module-versioning)
   - [Backwards compatibility in `0.0.z` and `0.y.z` version](#backwards-compatibility-in-00z-and-0yz-version)
 - [About Mineiros](#about-mineiros)
@@ -80,93 +81,106 @@ module "resource" {
 
 ## Module Argument Reference
 
-See
-[variables.tf](https://github.com/mineiros-io/terraform-aws-ecr/blob/master/variables.tf)
-and
-[examples/](https://github.com/mineiros-io/terraform-aws-ecr/blob/master/examples)
-for details and use-cases.
+See [variables.tf] and [examples/] for details and use-cases.
 
 ### Top-level Arguments
 
 #### Main Resource Configuration
 
 - **`name`**: **(Required `string`, Forces new resource)**
+
 The name of the repository.
 
 - **`module_enabled`**: *(Optional `bool`)*
+
 Specifies whether resources in this module should be created.
 Default is `true`.
 
 - **`immutable`**: *(Optional `string`)*
+
 You can configure a repository to be immutable to prevent image tags from being overwritten.
 Defaults to `false`.
 
 - **`immutable`**: *(Optional `map(string)`)*
+
 A mapping of tags to assign to the resource. Defaults to `{}`.
 
 - **`scan_on_push`**: *(Optional `map(string)`)*
+
 Indicates whether images are scanned after being pushed to the repository (true) or not scanned (false).
 Defaults to `false`.
 
 #### Extended Resource configuration
 
 - **[`repository_policy_statements`](#policy_statement-object-arguments)**: *(Optional `list(policy_statements)`)*
+
 List of statements of the repository policy.
 Default is `[]`.
 
 - **[`repository_lifecycle_rules`](#lifecycle_rule-object-arguments)**: *(Optional `list(lifecycle_rules)`)*
+
 List of lifecycle policy rules.
 Default is `[]`.
 
 #### Additional configuration
 
 - **`pull_identities`**: *(Optional `list(string)`)*
+
 List of AWS identity identifiers to grant cross account pull access to.
 Default is `[]`.
 
 - **`push_identities`**: *(Optional `list(string)`)*
+
 List of AWS identity identifiers to grant cross account pull and push access to.
 Default is `[]`.
 
 #### [`policy_statements`](#main-resource-configuration) Object Arguments
 
 - **`sid`**: *(Optional `string`)*
+
 An ID for the policy statement.
 
 - **`effect`**: *(Optional `string`)*
+
 Either "Allow" or "Deny", to specify whether this statement allows or denies the given actions.
 Default is "Allow".
 
 - **`actions`**: *(Optional `list(string)`)*
+
 A list of actions that this statement either allows or denies.
 
 - **`not_actions`**: *(Optional `list(string)`)*
+
 A list of actions that this statement does not apply to.
 Used to apply a policy statement to all actions except those listed.
 
 - **[`principals`](#principal-object-arguments)**: *(Optional `list(principal)`)*
+
 A nested configuration block (described below) specifying a resource (or resource pattern) to which this statement applies.
 
 - **[`not_principals`](#principal-object-arguments)**: *(Optional `list(principal)`)*
+
 Like principals except gives resources that the statement does not apply to.
 
 #### [`principal`](#policy_statement-object-arguments) Object Arguments
 
 - **`type`**: *(Optional `string`)*
+
 The type of principal. For AWS ARNs this is "AWS". For AWS services (e.g. Lambda), this is "Service".
 Default is `"AWS"`.
 
 - **`identifiers`**: *(Required `list(string)`)*
+
 List of identifiers for principals.
 When type is "AWS", these are IAM user or role ARNs.
 When type is "Service", these are AWS Service roles e.g. `lambda.amazonaws.com`.
 
 #### [`lifecycle_rules`](#main-resource-configuration) Object Arguments
 
-See [Amazon ECR Lifecycle Policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html#lifecycle_policy_parameters)
-for details.
+See [Amazon ECR Lifecycle Policies] for details.
 
 - **`rulePriority`**: *(Optional `integer`)*
+
 Sets the order in which rules are evaluated, lowest to highest.
 A lifecycle policy rule with a priority of `1` will be acted upon first,
 a rule with priority of `2` will be next, and so on.
@@ -179,17 +193,21 @@ If you define multiple rules that are not sorted in ascending `rulePriority` ord
 the resource will be flagged for recreation every terraform plan.
 
 - **`description`**: *(Optional `string`)*
+
 Describes the purpose of a rule within a lifecycle policy.
 
 - **[`selection`](#selection-object-arguments)**: *(Optional `selection`)*
+
 A `selection` object. For details see below.
 
 - **[`action`](#action-object-arguments)**: *(Optional `action`)*
+
 A `action` object. For details see below.
 
 #### [`selection`](#lifecycle_rules-object-arguments) Object Arguments
 
 - **`tagStatus`**: *(Required `string`)*
+
 Determines whether the lifecycle policy rule that you are adding specifies a tag for an image.
 Acceptable options are tagged, untagged, or any.
 If you specify `"any"`, then all images have the rule applied to them.
@@ -197,6 +215,7 @@ If you specify `"tagged"`, then you must also specify a `tagPrefixList` value.
 If you specify `"untagged"`, then you must omit `tagPrefixList`.
 
 - **`tagPrefixList`**: *(Required `list(string)`- only if `tagStatus` is set to `"tagged"` )*
+
 Only used if you specified `tagStatus`: `"tagged"`.
 You must specify a comma-separated list of image tag prefixes on which to take action with your lifecycle policy.
 For example, if your images are tagged as `prod`, `prod1`, `prod2`, and so on,
@@ -204,6 +223,7 @@ you would use the tag prefix `prod` to specify all of them.
 If you specify multiple tags, only the images with all specified tags are selected.
 
 - **`countType`**: *(Required `string`)*
+
 Specify a count type to apply to the images.
 If `countType` is set to `"imageCountMoreThan"`,
 you also specify `countNumber` to create a rule that sets a limit on
@@ -213,6 +233,7 @@ you also specify `countUnit` and `countNumber` to specify a time limit on
 the images that exist in your repository.
 
 - **`countUnit`**: *(Required `string` - only if `countType` is set to `"sinceImagePushed"`)*
+
 Specify a count unit of days to indicate that as the unit of time,
 in addition to `countNumber`, which is the number of days.
 
@@ -220,6 +241,7 @@ This should only be specified when `countType` is `"sinceImagePushed"`;
 an error will occur if you specify a count unit when `countType` is any other value.
 
 - **`countNumber`**: *(Required `number`)*
+
 Specify a count number.
 Acceptable values are positive integers (0 is not an accepted value).
 
@@ -231,46 +253,57 @@ then the value is the maximum age limit for your images.
 #### [`action`](#lifecycle_rules-object-arguments) Object Arguments
 
 - **`type`**: *(Required `string`)*
+
 Specify an action type. The supported value is expire.
 
 ## Module Attributes Reference
 
 The following attributes are exported by the module:
 
-- **`repository`**: the original resource
-[`aws_ecr_repository`](https://www.terraform.io/docs/providers/aws/r/ecr_repository.html#attributes-reference)
-resource containing all arguments as specified above and the other attributes as specified below.
+- **`repository`**
 
-- **`repository_policy`**: the original resource
-[`aws_ecr_repository_policy`](https://www.terraform.io/docs/providers/aws/r/ecr_repository_policy.html#attributes-reference)
-resource containing all arguments as specified above and the other attributes as specified below.
+The original resource [`aws_ecr_repository`] resource.
 
-- **`lifecycle_policy`**: the original resource
-[`aws_ecr_lifecycle_policy`](https://www.terraform.io/docs/providers/aws/r/ecr_lifecycle_policy.html#attributes-reference)
-resource containing all arguments as specified above and the other attributes as specified below.
+- **`repository_policy`**
+
+The original resource [`aws_ecr_repository_policy`] resource.
+
+- **`lifecycle_policy`**
+
+The original resource [`aws_ecr_lifecycle_policy`] resource.
+
+## External Documentation
+
+- AWS Documentation IAM:
+  - Repositories: https://docs.aws.amazon.com/AmazonECR/latest/userguide/Repositories.html
+  - IAM Access: https://docs.aws.amazon.com/AmazonECR/latest/userguide/security-iam.html
+  - Lifecycle Policies: https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html
+
+- Terraform AWS Provider Documentation:
+  - https://www.terraform.io/docs/providers/aws/r/ecr_repository.html
+  - https://www.terraform.io/docs/providers/aws/r/ecr_repository_policy.html
+  - https://www.terraform.io/docs/providers/aws/r/ecr_lifecycle_policy.html
 
 ## Module Versioning
 
-This Module follows the principles of [Semantic Versioning (SemVer)](https://semver.org/).
+This Module follows the principles of [Semantic Versioning (SemVer)].
 
-Using the given version number of `MAJOR.MINOR.PATCH`, we apply the following constructs:
+Given a version number `MAJOR.MINOR.PATCH`, we increment the:
 
-1. Use the `MAJOR` version for incompatible changes.
-1. Use the `MINOR` version when adding functionality in a backwards compatible manner.
-1. Use the `PATCH` version when introducing backwards compatible bug fixes.
+1. `MAJOR` version when we make incompatible changes,
+2. `MINOR` version when we add functionality in a backwards compatible manner, and
+3. `PATCH` version when we make backwards compatible bug fixes.
 
 ### Backwards compatibility in `0.0.z` and `0.y.z` version
 
-- In the context of initial development, backwards compatibility in versions `0.0.z` is **not guaranteed** when `z` is
-  increased. (Initial development)
-- In the context of pre-release, backwards compatibility in versions `0.y.z` is **not guaranteed** when `y` is
-  increased. (Pre-release)
+- Backwards compatibility in versions `0.0.z` is **not guaranteed** when `z` is increased. (Initial development)
+- Backwards compatibility in versions `0.y.z` is **not guaranteed** when `y` is increased. (Pre-release)
 
 ## About Mineiros
 
-Mineiros is a [DevOps as a Service](https://mineiros.io/?ref=terraform-aws-ecr) company based in Berlin, Germany. We offer commercial support
-for all of our projects and encourage you to reach out if you have any questions or need help.
-Feel free to send us an email at [hello@mineiros.io](mailto:hello@mineiros.io).
+Mineiros is a [DevOps as a Service][homepage] company based in Berlin, Germany.
+We offer commercial support for all of our projects and encourage you to reach out
+if you have any questions or need help. Feel free to send us an email at [hello@mineiros.io] or join our [Community Slack channel][slack].
 
 We can also help you with:
 
@@ -279,24 +312,59 @@ We can also help you with:
 
 ## Reporting Issues
 
-We use GitHub [Issues](https://github.com/mineiros-io/terraform-aws-ecr/issues)
-to track community reported issues and missing features.
+We use GitHub [Issues] to track community reported issues and missing features.
 
 ## Contributing
 
 Contributions are always encouraged and welcome! For the process of accepting changes, we use
-[Pull Requests](https://github.com/mineiros-io/terraform-aws-ecr/pulls). If you'd like more information, please
-see our [Contribution Guidelines](https://github.com/mineiros-io/terraform-aws-ecr/blob/master/CONTRIBUTING.md).
+[Pull Requests]. If you'd like more information, please see our [Contribution Guidelines].
 
 ## Makefile Targets
 
-This repository comes with a handy
-[Makefile](https://github.com/mineiros-io/terraform-aws-ecr/blob/master/Makefile).
+This repository comes with a handy [Makefile].
 Run `make help` to see details on each available target.
 
 ## License
 
 This module is licensed under the Apache License Version 2.0, January 2004.
-Please see [LICENSE](https://github.com/mineiros-io/terraform-aws-ecr/blob/master/LICENSE) for full details.
+Please see [LICENSE] for full details.
 
-Copyright &copy; 2020 Mineiros GmbH
+Copyright &copy; 2020 [Mineiros GmbH][homepage]
+
+<!-- References -->
+
+[ECR]: https://aws.amazon.com/ecr/
+[Amazon ECR Lifecycle Policies]: https://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html
+
+[`aws_ecr_repository`]: https://www.terraform.io/docs/providers/aws/r/ecr_repository.html#attributes-reference
+[`aws_ecr_repository_policy`]: https://www.terraform.io/docs/providers/aws/r/ecr_repository_policy.html#attributes-reference
+[`aws_ecr_lifecycle_policy`]: https://www.terraform.io/docs/providers/aws/r/ecr_lifecycle_policy.html#attributes-reference
+
+
+[homepage]: https://mineiros.io/?ref=terraform-aws-ecr
+[hello@mineiros.io]: mailto:hello@mineiros.io
+
+[badge-build]: https://mineiros.semaphoreci.com/badges/terraform-aws-ecr/branches/master.svg?style=shields&key=df11a416-f581-4d35-917a-fa3c2de2048e
+[badge-semver]: https://img.shields.io/github/v/tag/mineiros-io/terraform-aws-ecr.svg?label=latest&sort=semver
+[badge-license]: https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg
+[badge-terraform]: https://img.shields.io/badge/terraform-0.13%20and%200.12.20+-623CE4.svg?logo=terraform
+[badge-slack]: https://img.shields.io/badge/slack-@mineiros--community-f32752.svg?logo=slack
+
+[build-status]: https://mineiros.semaphoreci.com/projects/terraform-aws-ecr
+[releases-github]: https://github.com/mineiros-io/terraform-aws-ecr/releases
+[releases-terraform]: https://github.com/hashicorp/terraform/releases
+[apache20]: https://opensource.org/licenses/Apache-2.0
+[slack]: https://join.slack.com/t/mineiros-community/shared_invite/zt-ehidestg-aLGoIENLVs6tvwJ11w9WGg
+
+[Terraform]: https://www.terraform.io
+[AWS]: https://aws.amazon.com/
+[Semantic Versioning (SemVer)]: https://semver.org/
+
+[examples/example/main.tf]: https://github.com/mineiros-io/terraform-aws-ecr/blob/master/examples/example/main.tf
+[variables.tf]: https://github.com/mineiros-io/terraform-aws-ecr/blob/master/variables.tf
+[examples/]: https://github.com/mineiros-io/terraform-aws-ecr/blob/master/examples
+[Issues]: https://github.com/mineiros-io/terraform-aws-ecr/issues
+[LICENSE]: https://github.com/mineiros-io/terraform-aws-ecr/blob/master/LICENSE
+[Makefile]: https://github.com/mineiros-io/terraform-aws-ecr/blob/master/Makefile
+[Pull Requests]: https://github.com/mineiros-io/terraform-aws-ecr/pulls
+[Contribution Guidelines]: https://github.com/mineiros-io/terraform-aws-ecr/blob/master/CONTRIBUTING.md
