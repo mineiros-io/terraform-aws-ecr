@@ -40,7 +40,7 @@ const OutputAwsAccessKeySecret = "aws_iam_access_key_secret"
 func TestECRRepository(t *testing.T) {
 	t.Parallel()
 
-	workingDir := "../examples/ecr"
+	workingDir := "ecr_repository_test"
 	repoName := strings.ToLower(fmt.Sprintf("ecr-repository-%s", random.UniqueId()))
 	userName := strings.ToLower(fmt.Sprintf("docker-%s", random.UniqueId()))
 	testStructure.SaveString(t, workingDir, "repoName", repoName)

@@ -40,6 +40,8 @@ DOCKER_AWS_FLAGS += -e AWS_ACCESS_KEY_ID
 DOCKER_AWS_FLAGS += -e AWS_SECRET_ACCESS_KEY
 DOCKER_AWS_FLAGS += -e AWS_SESSION_TOKEN
 
+DOCKER_SOCKET_FLAGS += -v /var/run/docker.sock:/var/run/docker.sock
+
 DOCKER_FLAGS   += ${DOCKER_RUN_FLAGS}
 DOCKER_RUN_CMD  = docker run ${DOCKER_FLAGS} ${BUILD_TOOLS_DOCKER_IMAGE}
 
@@ -56,6 +58,7 @@ test/pre-commit:
 .PHONY: test/unit-tests
 test/unit-tests: DOCKER_FLAGS += ${DOCKER_SSH_FLAGS}
 test/unit-tests: DOCKER_FLAGS += ${DOCKER_AWS_FLAGS}
+test/unit-tests: DOCKER_FLAGS += ${DOCKER_SOCKET_FLAGS}
 test/unit-tests:
 	@echo "${YELLOW}[TEST] ${GREEN}Start Running Go Tests in Docker Container.${RESET}"
 	$(call go-test,./test/...)
