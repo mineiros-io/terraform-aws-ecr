@@ -360,7 +360,6 @@ Copyright &copy; 2020 [Mineiros GmbH][homepage]
 [AWS]: https://aws.amazon.com/
 [Semantic Versioning (SemVer)]: https://semver.org/
 
-[examples/example/main.tf]: https://github.com/mineiros-io/terraform-aws-ecr/blob/master/examples/example/main.tf
 [variables.tf]: https://github.com/mineiros-io/terraform-aws-ecr/blob/master/variables.tf
 [examples/]: https://github.com/mineiros-io/terraform-aws-ecr/blob/master/examples
 [Issues]: https://github.com/mineiros-io/terraform-aws-ecr/issues
