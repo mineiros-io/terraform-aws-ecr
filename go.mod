@@ -1,4 +1,4 @@
-module github.com/mineiros-io/terraform-module-template/v2
+module github.com/mineiros-io/terraform-aws-ecr/v2
 
 go 1.13
 

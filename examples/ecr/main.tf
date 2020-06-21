@@ -1,57 +1,18 @@
 # ---------------------------------------------------------------------------------------------------------------------
 # CREATE AN ECR REPOSITORY
-# This example creates an ECR repository and grants a newly created IAM User pull and push permissions for the repo.
-# ---------------------------------------------------------------------------------------------------------------------
-
-# ---------------------------------------------------------------------------------------------------------------------
-# PROVIDER CONFIGURATION
-# ---------------------------------------------------------------------------------------------------------------------
-
-provider "aws" {
-  version = "~> 2.45"
-  region  = var.aws_region
-}
-
-# ---------------------------------------------------------------------------------------------------------------------
-# IAM ACCESS MANAGEMENT
-# ---------------------------------------------------------------------------------------------------------------------
-
-resource "aws_iam_user" "docker" {
-  name = var.iam_user_name
-}
-
-resource "aws_iam_access_key" "docker" {
-  user = aws_iam_user.docker.name
-}
-
-resource "aws_iam_user_policy" "docker" {
-  user   = aws_iam_user.docker.name
-  policy = data.aws_iam_policy_document.ecr.json
-}
-
-data "aws_iam_policy_document" "ecr" {
-  statement {
-    sid     = "ECRGetAuthorizationToken"
-    effect  = "Allow"
-    actions = ["ecr:GetAuthorizationToken"]
-
-    resources = ["*"]
-  }
-}
-
-# ---------------------------------------------------------------------------------------------------------------------
-# ECR REPOSITORY
+# This example creates an ECR repository and attach a lifecycle policy.
 # ---------------------------------------------------------------------------------------------------------------------
 
 module "repository" {
-  source = "../.."
+  source  = "mineiros-io/ecr/aws"
+  version = "0.1.3"
 
-  name = var.name
+  name = "example"
 
-  immutable = var.immutable
+  immutable = true
 
-  push_identities = [aws_iam_user.docker.arn]
-  pull_identities = [aws_iam_user.docker.arn]
+  push_identities = []
+  pull_identities = []
 
   lifecycle_policy_rules = [
     {
@@ -80,5 +41,29 @@ module "repository" {
       }
     }
   ]
-
 }
+
+# ------------------------------------------------------------------------------
+# EXAMPLE PROVIDER CONFIGURATION
+# ------------------------------------------------------------------------------
+
+provider "aws" {
+  version = "~> 2.0"
+  region  = "eu-west-1"
+}
+
+# ------------------------------------------------------------------------------
+# ENVIRONMENT VARIABLES:
+# ------------------------------------------------------------------------------
+# You can provide your credentials via the
+#   AWS_ACCESS_KEY_ID and
+#   AWS_SECRET_ACCESS_KEY, environment variables,
+# representing your AWS Access Key and AWS Secret Key, respectively.
+# Note that setting your AWS credentials using either these (or legacy)
+# environment variables will override the use of
+#   AWS_SHARED_CREDENTIALS_FILE and
+#   AWS_PROFILE.
+# The
+#   AWS_DEFAULT_REGION and
+#   AWS_SESSION_TOKEN environment variables are also used, if applicable.
+# ------------------------------------------------------------------------------
