@@ -73,7 +73,7 @@ provider "aws" {
 
 module "resource" {
   source  = "mineiros-io/ecr/aws"
-  version = "0.0.1"
+  version = "~> 0.1.3"
 
   name = "example"
 }
