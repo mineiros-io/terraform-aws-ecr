@@ -5,7 +5,7 @@
 
 module "repository" {
   source  = "mineiros-io/ecr/aws"
-  version = "~> 0.1.3"
+  version = "~> 0.2.0"
 
   name = "example"
 
@@ -48,8 +48,7 @@ module "repository" {
 # ------------------------------------------------------------------------------
 
 provider "aws" {
-  version = "~> 2.0"
-  region  = "eu-west-1"
+  region = "eu-west-1"
 }
 
 # ------------------------------------------------------------------------------

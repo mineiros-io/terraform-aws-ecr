@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0]
+### Added
+- Add support for Terraform v0.13.x
+- Add support for Terraform AWS Provider v3.x
+- Prepare support for Terraform v0.14.x
+
 ## [0.1.3] - 2020-07-08
 ### Added
 - Add example and example documentation
@@ -39,9 +45,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Lifecycle Policies
 
 <!-- markdown-link-check-disable -->
-[Unreleased]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.3...HEAD
-[0.1.3]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.2...v0.1.3
+[Unreleased]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.3...v0.2.0
 <!-- markdown-link-check-disabled -->
+[0.1.3]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.0.1...v0.1.0
