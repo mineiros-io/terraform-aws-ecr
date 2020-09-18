@@ -69,14 +69,9 @@ or using terraform variables (`.tfvars` files) as those values might end up in t
 or in github commits.
 
 ```hcl
-provider "aws" {
-  version = "~> 2.45"
-  region  = "us-east-1"
-}
-
 module "resource" {
   source  = "mineiros-io/ecr/aws"
-  version = "~> 0.1.3"
+  version = "~> 0.2.0"
 
   name = "example"
 }
