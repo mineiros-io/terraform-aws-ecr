@@ -2,15 +2,18 @@
 
 [![Build Status][badge-build]][build-status]
 [![GitHub tag (latest SemVer)][badge-semver]][releases-github]
-[![license][badge-license]][apache20]
 [![Terraform Version][badge-terraform]][releases-terraform]
+[![AWS Provider Version][badge-tf-aws]][releases-aws-provider]
 [![Join Slack][badge-slack]][slack]
 
 # terraform-aws-ecr
 
-A [Terraform] 0.12 module for creating an
+A [Terraform] base module for creating an
 [Amazon Elastic Container Registry Repository (ECR)][ECR] on
 [Amazon Web Services (AWS)][AWS].
+
+***This module supports Terraform v0.13 as well as v0.12.20 and above
+and is compatible with the terraform AWS provider v3 as well as v2.45 and above.***
 
 - [Module Features](#module-features)
 - [Getting Started](#getting-started)
@@ -326,6 +329,8 @@ Run `make help` to see details on each available target.
 
 ## License
 
+[![license][badge-license]][apache20]
+
 This module is licensed under the Apache License Version 2.0, January 2004.
 Please see [LICENSE] for full details.
 
@@ -340,6 +345,8 @@ Copyright &copy; 2020 [Mineiros GmbH][homepage]
 [`aws_ecr_repository_policy`]: https://www.terraform.io/docs/providers/aws/r/ecr_repository_policy.html#attributes-reference
 [`aws_ecr_lifecycle_policy`]: https://www.terraform.io/docs/providers/aws/r/ecr_lifecycle_policy.html#attributes-reference
 
+[badge-tf-aws]: https://img.shields.io/badge/AWS-3%20and%202.45+-F8991D.svg?logo=terraform
+[releases-aws-provider]: https://github.com/terraform-providers/terraform-provider-aws/releases
 
 [homepage]: https://mineiros.io/?ref=terraform-aws-ecr
 [hello@mineiros.io]: mailto:hello@mineiros.io
