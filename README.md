@@ -12,8 +12,8 @@ A [Terraform] base module for creating an
 [Amazon Elastic Container Registry Repository (ECR)][ECR] on
 [Amazon Web Services (AWS)][AWS].
 
-***This module supports Terraform v0.13 as well as v0.12.20 and above
-and is compatible with the terraform AWS provider v3 as well as v2.45 and above.***
+***This module supports Terraform v0.14 as well as v0.12.20 and above
+and is compatible with the Terraform AWS provider v3 as well as v2.45 and above.***
 
 - [Module Features](#module-features)
 - [Getting Started](#getting-started)
@@ -329,7 +329,7 @@ Run `make help` to see details on each available target.
 This module is licensed under the Apache License Version 2.0, January 2004.
 Please see [LICENSE] for full details.
 
-Copyright &copy; 2020 [Mineiros GmbH][homepage]
+Copyright &copy; 2021 [Mineiros GmbH][homepage]
 
 <!-- References -->
 
