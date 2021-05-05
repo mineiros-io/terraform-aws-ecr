@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2020-05-05
+### Added
+- feat: feat: add support for Terraform v0.14.x
+
+### Changed
+- feat: upgrade terratest to v1.34.0
+- build: update secrets in GitHub Actions pipeline
+- build: upgrade build-tools to `v0.9.0`
+
 ## [0.2.0]
 ### Added
 - Add support for Terraform v0.13.x
