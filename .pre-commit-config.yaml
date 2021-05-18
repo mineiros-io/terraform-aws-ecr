@@ -9,5 +9,6 @@ repos:
       - id: gofmt
       - id: goimports
       - id: golangci-lint
+        args: ['--timeout', '5m']
       - id: phony-targets
       - id: markdown-link-check

@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.2.1] - 2020-05-05
+## [0.3.0]
 ### Added
 - feat: feat: add support for Terraform `v0.14.x`
 
@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - build: update secrets in GitHub Actions pipeline
 - build: upgrade build-tools to `v0.9.0`
 - build: upgrade pre-commit-hooks to `v0.2.2`
+- build: increase timeout for golangci-lint to 5 minutes
 
 ## [0.2.0]
 ### Added
@@ -55,9 +56,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Lifecycle Policies
 
 <!-- markdown-link-check-disable -->
-[Unreleased]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.3...v0.2.0
+[Unreleased]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.2.0...v0.3.0
 <!-- markdown-link-check-disabled -->
+[0.2.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.0...v0.1.1
