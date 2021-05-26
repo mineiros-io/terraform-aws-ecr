@@ -1,30 +1,16 @@
 package test
 
 import (
-	"encoding/base64"
-	"encoding/json"
 	"fmt"
-	"io"
-	"os"
 	"strings"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/aws"
 	"github.com/gruntwork-io/terratest/modules/random"
 
-	"context"
-
-	"github.com/docker/docker/api/types"
-	"github.com/docker/docker/client"
-
-	"github.com/gruntwork-io/terratest/modules/docker"
 	testStructure "github.com/gruntwork-io/terratest/modules/test-structure"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
-
-	goAws "github.com/aws/aws-sdk-go/aws"
-	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/ecr"
 )
 
 const OutputAwsAccessKeyID = "aws_iam_access_key_id"
@@ -105,73 +91,73 @@ func TestECRRepository(t *testing.T) {
 }
 
 // Extracts the ECR repository name from GetAuthorizationTokenOutput
-func getValidECRRepositoryName(repoName string, authorizationDetails *ecr.GetAuthorizationTokenOutput) string {
-	return strings.Replace(
-		fmt.Sprintf(
-			"%s/%s",
-			goAws.StringValue(authorizationDetails.AuthorizationData[0].ProxyEndpoint),
-			repoName),
-		"https://", "", -1)
-}
+// func getValidECRRepositoryName(repoName string, authorizationDetails *ecr.GetAuthorizationTokenOutput) string {
+// 	return strings.Replace(
+// 		fmt.Sprintf(
+// 			"%s/%s",
+// 			goAws.StringValue(authorizationDetails.AuthorizationData[0].ProxyEndpoint),
+// 			repoName),
+// 		"https://", "", -1)
+// }
 
 // ECR session & authentication
-func getAuthorizationDetails(session *session.Session, awsRegion string) (*ecr.GetAuthorizationTokenOutput, error) {
-	svc := ecr.New(session, goAws.NewConfig().WithRegion(awsRegion))
-	authorizationToken, err := svc.GetAuthorizationToken(&ecr.GetAuthorizationTokenInput{})
-
-	return authorizationToken, err
-}
+// func getAuthorizationDetails(session *session.Session, awsRegion string) (*ecr.GetAuthorizationTokenOutput, error) {
+// 	svc := ecr.New(session, goAws.NewConfig().WithRegion(awsRegion))
+// 	authorizationToken, err := svc.GetAuthorizationToken(&ecr.GetAuthorizationTokenInput{})
+//
+// 	return authorizationToken, err
+// }
 
 // Build the docker image
-func dockerBuild(t *testing.T, repo string, version string) {
-	// This text will be passed as an argument to the build image and saved in a txt file
-	text := "hello world"
-
-	dockerOptions := &docker.BuildOptions{
-		Tags:      []string{fmt.Sprintf("%s:%s", repo, version)},
-		BuildArgs: []string{fmt.Sprintf("text=%s", text)},
-	}
-
-	// toDo: Can we instead use the API directly instead of relying on terratest? Terratest is using a local exec call
-	// for using the docker-cli and therefore requires us to install docker in our build-tools image.
-	docker.Build(t, "./", dockerOptions)
-}
+// func dockerBuild(t *testing.T, repo string, version string) {
+// 	// This text will be passed as an argument to the build image and saved in a txt file
+// 	text := "hello world"
+//
+// 	dockerOptions := &docker.BuildOptions{
+// 		Tags:      []string{fmt.Sprintf("%s:%s", repo, version)},
+// 		BuildArgs: []string{fmt.Sprintf("text=%s", text)},
+// 	}
+//
+// 	// toDo: Can we instead use the API directly instead of relying on terratest? Terratest is using a local exec call
+// 	// for using the docker-cli and therefore requires us to install docker in our build-tools image.
+// 	docker.Build(t, "./", dockerOptions)
+// }
 
 // Authenticate with ECR and push the docker image
-func dockerPush(t *testing.T, client *client.Client, ecr string, authorizationToken string) {
-	// AuthorizationToken is a base64 encoded string in the format of: "<username>:<password>".
-	// It seems that ImagePushOptions.RegistryAuth needs to be a base64 encoding of
-	// "{ username: <username>, password: <password> }".
-	authInfoBytes, _ := base64.StdEncoding.DecodeString(authorizationToken)
-	authInfo := strings.Split(string(authInfoBytes), ":")
-	auth := struct {
-		Username string
-		Password string
-	}{
-		Username: authInfo[0],
-		Password: authInfo[1],
-	}
-	authBytes, _ := json.Marshal(auth)
-
-	out, err := client.ImagePush(
-		context.Background(),
-		ecr,
-		types.ImagePushOptions{
-			RegistryAuth: base64.StdEncoding.EncodeToString(authBytes),
-			All:          true,
-		})
-
-	if err != nil {
-		t.Fatalf("An error occurred when trying to push the image to ECR %s", err)
-	}
-
-	// nasty workaround, we should write the output line by line as logs
-	if _, err := io.Copy(os.Stdout, out); err != nil {
-		t.Fatalf("An error occurred while pushing the docker image to ecr: %s", err)
-	}
-
-	defer out.Close()
-}
+// func dockerPush(t *testing.T, client *client.Client, ecr string, authorizationToken string) {
+// 	// AuthorizationToken is a base64 encoded string in the format of: "<username>:<password>".
+// 	// It seems that ImagePushOptions.RegistryAuth needs to be a base64 encoding of
+// 	// "{ username: <username>, password: <password> }".
+// 	authInfoBytes, _ := base64.StdEncoding.DecodeString(authorizationToken)
+// 	authInfo := strings.Split(string(authInfoBytes), ":")
+// 	auth := struct {
+// 		Username string
+// 		Password string
+// 	}{
+// 		Username: authInfo[0],
+// 		Password: authInfo[1],
+// 	}
+// 	authBytes, _ := json.Marshal(auth)
+//
+// 	out, err := client.ImagePush(
+// 		context.Background(),
+// 		ecr,
+// 		types.ImagePushOptions{
+// 			RegistryAuth: base64.StdEncoding.EncodeToString(authBytes),
+// 			All:          true,
+// 		})
+//
+// 	if err != nil {
+// 		t.Fatalf("An error occurred when trying to push the image to ECR %s", err)
+// 	}
+//
+// 	// nasty workaround, we should write the output line by line as logs
+// 	if _, err := io.Copy(os.Stdout, out); err != nil {
+// 		t.Fatalf("An error occurred while pushing the docker image to ecr: %s", err)
+// 	}
+//
+// 	defer out.Close()
+// }
 
 // Deploy the example using Terraform
 func deployUsingTerraform(t *testing.T, repoName string, userName string, awsRegion string, workingDir string) {
@@ -199,6 +185,6 @@ func undeployTerraform(t *testing.T, workingDir string) {
 }
 
 // Undeploy docker
-func undeployDocker(client *client.Client, image string) ([]types.ImageDeleteResponseItem, error) {
-	return client.ImageRemove(context.Background(), image, types.ImageRemoveOptions{})
-}
+// func undeployDocker(client *client.Client, image string) ([]types.ImageDeleteResponseItem, error) {
+// 	return client.ImageRemove(context.Background(), image, types.ImageRemoveOptions{})
+// }
