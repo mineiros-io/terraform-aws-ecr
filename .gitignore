@@ -38,6 +38,7 @@ override.tf.json
 
 # Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
 # example: *tfplan*
+*.tfplan
 
 # Go best practices dictate that libraries should not include the vendor directory
 vendor
@@ -47,3 +48,6 @@ vendor
 
 # Terraform crash log files
 crash.log
+
+.terraform.lock.hcl
+.tool-versions
