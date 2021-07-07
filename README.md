@@ -99,7 +99,7 @@ See [variables.tf] and [examples/] for details and use-cases.
   You can configure a repository to be immutable to prevent image tags from being overwritten.
   Defaults to `false`.
 
-- **`immutable`**: *(Optional `map(string)`)*
+- **`tags`**: *(Optional `map(string)`)*
 
   A mapping of tags to assign to the resource. Defaults to `{}`.
 
