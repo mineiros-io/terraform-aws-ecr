@@ -21,30 +21,10 @@ variable "name" {
 # These variables have defaults, but may be overridden.
 # -------------------------------------------------------------------------------------------------------------------
 
-variable "module_enabled" {
-  type        = bool
-  description = "(Optional) Indicated whether the module is enabled and resource should be created or not. Defaults to true."
-  default     = true
-}
-
 variable "immutable" {
   type        = bool
   description = "(Optional) You can configure a repository to be immutable to prevent image tags from being overwritten. Defaults to false"
   default     = false
-}
-
-variable "tags" {
-  type        = map(string)
-  description = "(Optional) A mapping of tags to assign to the resource."
-  #
-  # Example:
-  #
-  # tags = {
-  #   CreatedAt = "2020-02-07",
-  #   Alice     = "Bob
-  # }
-  #
-  default = {}
 }
 
 variable "scan_on_push" {
@@ -75,4 +55,42 @@ variable "push_identities" {
   type        = list(string)
   description = "(Optional) List of AWS identity identifiers to grant cross account pull and push access to"
   default     = []
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "(Optional) A mapping of tags to assign to the resource."
+  #
+  # Example:
+  #
+  # tags = {
+  #   CreatedAt = "2020-02-07",
+  #   Alice     = "Bob
+  # }
+  #
+  default = {}
+}
+
+# ----------------------------------------------------------------------------------------------------------------------
+# MODULE CONFIGURATION PARAMETERS
+# These variables are used to configure the module.
+# See https://medium.com/mineiros/the-ultimate-guide-on-how-to-write-terraform-modules-part-1-81f86d31f024
+# ----------------------------------------------------------------------------------------------------------------------
+
+variable "module_enabled" {
+  type        = bool
+  description = "(Optional) Whether to create resources within the module or not."
+  default     = true
+}
+
+variable "module_depends_on" {
+  type        = any
+  description = "(Optional) A list of external resources the module depends_on."
+  default     = []
+}
+
+variable "module_tags" {
+  description = "(Optional) A map of default tags to apply to all resources created which support tags. Default is {}."
+  type        = map(string)
+  default     = {}
 }
