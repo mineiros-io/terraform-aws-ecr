@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `module_enabled`, `module_depends_on`, `module_tags` and all input variables as outputs
+
 ## [0.4.2]
 
 ### Fixed
