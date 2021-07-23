@@ -75,7 +75,7 @@ data "aws_iam_policy_document" "policy" {
       sid     = try(statement.value.sid, null)
 
       dynamic "principals" {
-        for_each = try(statement.value.principals, null)
+        for_each = try(statement.value.principals, [])
 
         content {
           type        = try(principals.value.type, "AWS")
@@ -84,7 +84,7 @@ data "aws_iam_policy_document" "policy" {
       }
 
       dynamic "not_principals" {
-        for_each = try(statement.value.not_principals, null)
+        for_each = try(statement.value.not_principals, [])
 
         content {
           type        = try(not_principals.value.type, "AWS")
