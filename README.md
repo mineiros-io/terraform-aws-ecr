@@ -83,16 +83,29 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 ### Top-level Arguments
 
+#### Module Configuration
+
+- **`module_enabled`**: _(Optional `bool`)_
+
+  Specifies whether resources in the module will be created.
+  Default is `true`.
+
+- **`module_tags`**: _(Optional `map(string)`)_
+
+  A map of tags that will be applied to all created resources that accept tags. Tags defined with 'module_tags' can be
+  overwritten by resource-specific tags.
+  Default is `{}`.
+
+- **`module_depends_on`**: _(Optional `list(dependencies)`)_
+
+  A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
+
+
 #### Main Resource Configuration
 
 - **`name`**: **(Required `string`, Forces new resource)**
 
   The name of the repository.
-
-- **`module_enabled`**: *(Optional `bool`)*
-
-  Specifies whether resources in this module should be created.
-  Default is `true`.
 
 - **`immutable`**: *(Optional `string`)*
 
@@ -101,7 +114,8 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 - **`tags`**: *(Optional `map(string)`)*
 
-  A mapping of tags to assign to the resource. Defaults to `{}`.
+  A mapping of tags to assign to the `aws_ecr_repository` resources.
+  Defaults to `{}`.
 
 - **`scan_on_push`**: *(Optional `map(string)`)*
 

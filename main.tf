@@ -16,11 +16,13 @@ resource "aws_ecr_repository" "repository" {
 
   name                 = var.name
   image_tag_mutability = var.immutable ? "IMMUTABLE" : "MUTABLE"
-  tags                 = var.tags
 
   image_scanning_configuration {
     scan_on_push = var.scan_on_push
   }
+
+  tags       = merge(var.module_tags, var.tags)
+  depends_on = [var.module_depends_on]
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -113,6 +115,8 @@ resource "aws_ecr_repository_policy" "repository_policy" {
 
   repository = try(aws_ecr_repository.repository[0].name, null)
   policy     = join("", data.aws_iam_policy_document.policy.*.json)
+
+  depends_on = [var.module_depends_on]
 }
 
 locals {
@@ -132,5 +136,7 @@ resource "aws_ecr_lifecycle_policy" "lifecycle_policy" {
 
   repository = try(aws_ecr_repository.repository[0].name, null)
   policy     = local.lifecycle_policy
+
+  depends_on = [var.module_depends_on]
 }
 
