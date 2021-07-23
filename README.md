@@ -104,6 +104,7 @@ module "ecr" {
   name            = "sample-repository"
   immutable       = true
   scan_on_push    = true
+  pull_identities = [module.ci-user.users["ci.github-actions-ecr"].arn]
   push_identities = [module.ci-user.users["ci.github-actions-ecr"].arn]
 }
 

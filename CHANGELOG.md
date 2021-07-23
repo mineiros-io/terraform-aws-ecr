@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Breaking Change: remove permissions that allow identities defined in
+`push_identities` to pull images from ECR. To enable identities to pull and push
+images, they now need to be defined in both, `pull_identities` as well as
+`push_identities`.
+
 ## [0.4.1]
 
 ### Changed
@@ -80,10 +87,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 <!-- markdown-link-check-disable -->
 
 [unreleased]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.1...HEAD
-[0.4.1]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.0...v0.4.1
+[0.4.1]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.0...v0.5.1
 
 <!-- markdown-link-check-disabled -->
 
+[0.4.1]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.3...v0.2.0

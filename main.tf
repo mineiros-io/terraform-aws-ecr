@@ -51,7 +51,7 @@ locals {
   ]
 
   push_statement = length(var.push_identities) > 0 ? [{
-    actions     = concat(local.ecr_push_actions, local.ecr_pull_actions)
+    actions     = local.ecr_push_actions
     identifiers = var.push_identities
   }] : []
 
