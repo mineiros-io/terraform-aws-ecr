@@ -9,8 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.4.1]
 
-### Changed
-
 - Remove redundant `ecr:GetAuthorizationToken` from `aws_ecr_repository_policy`
 
 ## [0.4.0]
