@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.2]
+
+### Fixed
+
+- Remove all changes from `0.4.1` release
+
+## 0.4.1
+
+- REMOVED release due to accidental published changes
+
 ## [0.4.0]
 
 ### Added
@@ -73,11 +83,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- markdown-link-check-disable -->
 
-[unreleased]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.0...HEAD
-[0.4.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.3.0...v0.4.0
+[unreleased]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.0...v0.4.2
 
 <!-- markdown-link-check-disabled -->
 
+[0.4.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.3...v0.2.0
 [0.1.3]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.2...v0.1.3
