@@ -37,15 +37,17 @@ locals {
   policy_enabled = length(var.repository_policy_statements) > 0 || length(var.push_identities) > 0 || length(var.pull_identities) > 0
 
   ecr_pull_actions = [
-    "ecr:ListImages",
     "ecr:BatchCheckLayerAvailability",
     "ecr:BatchGetImage",
+    "ecr:GetAuthorizationToken",
     "ecr:GetDownloadUrlForLayer",
   ]
 
   ecr_push_actions = [
     "ecr:CompleteLayerUpload",
+    "ecr:GetAuthorizationToken",
     "ecr:InitiateLayerUpload",
+    "ecr:ListImages",
     "ecr:PutImage",
     "ecr:UploadLayerPart",
   ]
