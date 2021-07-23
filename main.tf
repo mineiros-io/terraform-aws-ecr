@@ -75,7 +75,7 @@ data "aws_iam_policy_document" "policy" {
       sid     = try(statement.value.sid, null)
 
       dynamic "principals" {
-        for_each = try(statement.value.principals, null)
+        for_each = try(statement.value.principals, [])
 
         content {
           type        = try(principals.value.type, "AWS")
@@ -84,7 +84,7 @@ data "aws_iam_policy_document" "policy" {
       }
 
       dynamic "not_principals" {
-        for_each = try(statement.value.not_principals, null)
+        for_each = try(statement.value.not_principals, [])
 
         content {
           type        = try(not_principals.value.type, "AWS")
@@ -111,7 +111,7 @@ data "aws_iam_policy_document" "policy" {
 resource "aws_ecr_repository_policy" "repository_policy" {
   count = var.module_enabled && local.policy_enabled ? 1 : 0
 
-  repository = try(aws_ecr_repository.repository[0].name, null)
+  repository = aws_ecr_repository.repository[0].name
   policy     = join("", data.aws_iam_policy_document.policy.*.json)
 }
 
@@ -130,7 +130,7 @@ locals {
 resource "aws_ecr_lifecycle_policy" "lifecycle_policy" {
   count = var.module_enabled && length(var.lifecycle_policy_rules) > 0 ? 1 : 0
 
-  repository = try(aws_ecr_repository.repository[0].name, null)
+  repository = aws_ecr_repository.repository[0].name
   policy     = local.lifecycle_policy
 }
 
