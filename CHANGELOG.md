@@ -7,13 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0]
+
 ### Added
 
 - Add `module_enabled`, `module_depends_on`, `module_tags` and all input variables as outputs
 
 ### Changed
 
-- Move `ecr:ListImages` from `push_identities` instead of `push_identities`
+- **BREAKING**: Move `ecr:ListImages` from `push_identities` instead of `push_identities`.
+  Identities passed to `push_identities` will no longer be able to list images of a repository.
 
 ### Removed
 
@@ -96,11 +99,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- markdown-link-check-disable -->
 
-[unreleased]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.2...HEAD
-[0.4.2]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.0...v0.4.2
+[unreleased]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.2...v0.5.0
 
 <!-- markdown-link-check-disabled -->
 
+[0.4.2]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.0...v0.4.2
 [0.4.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.3...v0.2.0
