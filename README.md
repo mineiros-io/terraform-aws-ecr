@@ -71,7 +71,7 @@ or in github commits.
 ```hcl
 module "resource" {
   source  = "mineiros-io/ecr/aws"
-  version = "~> 0.5.0"
+  version = "~> 0.6.0"
 
   name = "example"
 }
