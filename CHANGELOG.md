@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0]
+
 ### Added
 
 - Add support for Terraform `v1.x`
@@ -48,16 +50,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Add support for Terraform v0.13.x
-- Add support for Terraform AWS Provider v3.x
-- Prepare support for Terraform v0.14.x
+- Add support for Terraform `v0.13.x`
+- Add support for Terraform AWS Provider `v3.x`
+- Prepare support for Terraform `v0.14.x`
 
 ## [0.1.3] - 2020-07-08
 
 ### Added
 
 - Add example and example documentation
-- Add CHANGELOG.md
+- Add `CHANGELOG.md`
 
 ### Changed
 
@@ -71,8 +73,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Upgrade build-tools to v0.5.3
-- Upgrade pre-commit-hooks to v0.1.4
+- Upgrade build-tools to `v0.5.3`
+- Upgrade pre-commit-hooks to `v0.1.4`
 - Add phony-targets and markdown-link-check hooks
 - Update documentation design
 
