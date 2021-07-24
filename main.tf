@@ -43,14 +43,12 @@ locals {
     "ecr:ListImages",
   ]
 
-  ecr_push_only_actions = [
+  ecr_push_actions = [
     "ecr:CompleteLayerUpload",
     "ecr:InitiateLayerUpload",
     "ecr:PutImage",
     "ecr:UploadLayerPart",
   ]
-
-  ecr_push_actions = concat(local.ecr_push_only_actions, local.ecr_pull_actions)
 
   push_statement = length(var.push_identities) > 0 ? [{
     actions     = local.ecr_push_actions
