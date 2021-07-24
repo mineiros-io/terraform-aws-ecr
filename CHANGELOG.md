@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0]
+
 ### Breaking Changes
 
  - Identities defined in `push_identities` will no longer automatically have
@@ -99,11 +101,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- markdown-link-check-disable -->
 
-[unreleased]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.2...HEAD
-[0.4.2]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.0...v0.4.2
+[unreleased]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.2...v0.5.0
 
 <!-- markdown-link-check-disabled -->
 
+[0.4.2]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.4.0...v0.4.2
 [0.4.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/mineiros-io/terraform-aws-ecr/compare/v0.1.3...v0.2.0
