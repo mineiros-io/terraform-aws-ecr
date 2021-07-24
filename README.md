@@ -192,7 +192,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 - **`push_identities`**: *(Optional `list(string)`)*
 
-  List of AWS identity identifiers to grant cross account push and pull access to.
+  List of AWS identity identifiers to grant cross account push access to.
   Default is `[]`.
 
 #### [`policy_statements`](#main-resource-configuration) Object Arguments

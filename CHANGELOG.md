@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Breaking Changes
+
+ - Identities defined in `push_identities` will no longer automatically have
+   permissions to pull images from ECR. If you'd like to permit the same
+   identity to push and pull images from and to ECR, it now needs be defined in
+   both, `pull_identities` as well as `push_identities`.
+
 ### Added
 
 - Add `module_depends_on` and `module_tags` variables.
