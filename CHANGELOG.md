@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `module_enabled`, `module_depends_on`, `module_tags` and all input variables as outputs
 
+### Removed
+
+- Remove redundant `ecr:GetAuthorizationToken` from `aws_ecr_repository_policy`
+
+
 ## [0.4.2]
 
 ### Fixed

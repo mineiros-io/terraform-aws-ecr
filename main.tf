@@ -39,13 +39,11 @@ locals {
   ecr_pull_actions = [
     "ecr:BatchCheckLayerAvailability",
     "ecr:BatchGetImage",
-    "ecr:GetAuthorizationToken",
     "ecr:GetDownloadUrlForLayer",
   ]
 
   ecr_push_only_actions = [
     "ecr:CompleteLayerUpload",
-    "ecr:GetAuthorizationToken",
     "ecr:InitiateLayerUpload",
     "ecr:ListImages",
     "ecr:PutImage",

@@ -77,6 +77,55 @@ module "resource" {
 }
 ```
 
+### Access ECR with IAM principals
+
+If you'd like to pull and push images from and to the registry with IAM
+principals such as an IAM user, you will need to request an authorization token
+that is used to access any Amazon ECR registry that your IAM principal has
+access to and is valid for 12 hours. To obtain an authorization token, you
+must use the GetAuthorizationToken API operation to retrieve a base64-encoded
+authorization token containing the username AWS and an encoded password. 
+
+Since `ecr:GetAuthorizationToken` does not support resource-level permissions,
+you'll need to grant `"Resource": "*"` to the `ecr:GetAuthorizationToken` action
+for every principal that should have access.
+
+Please note, that since this module does not handle the `ecr:GetAuthorizationToken`
+permission for you, it needs to be granted for principals on an individual basis.
+
+Please consider the following example to grant pull and push permissions to an
+IAM user.
+
+```hcl
+module "ecr" {
+  source  = "mineiros-io/ecr/aws"
+  version = "~> 0.4.0"
+
+  name            = "sample-repository"
+  immutable       = true
+  scan_on_push    = true
+
+  pull_identities = [module.ci-user.users["ci.github-actions-ecr"].arn]
+  push_identities = [module.ci-user.users["ci.github-actions-ecr"].arn]
+}
+
+module "ci-user" {
+  source  = "mineiros-io/iam-user/aws"
+  version = "~> 0.4.0"
+
+  names = ["ci.github-actions-ecr"]
+
+  policy_statements = [
+    {
+      sid = "GetAuthorizationToken"
+      effect    = "Allow"
+      actions   = ["ecr:GetAuthorizationToken"]
+      resources = ["*"]
+    }
+  ]
+}
+```
+
 ## Module Argument Reference
 
 See [variables.tf] and [examples/] for details and use-cases.
@@ -129,7 +178,7 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 - **`push_identities`**: *(Optional `list(string)`)*
 
-  List of AWS identity identifiers to grant cross account pull and push access to.
+  List of AWS identity identifiers to grant cross account push access to.
   Default is `[]`.
 
 #### [`policy_statements`](#main-resource-configuration) Object Arguments
