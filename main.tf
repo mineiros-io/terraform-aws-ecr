@@ -40,12 +40,12 @@ locals {
     "ecr:BatchCheckLayerAvailability",
     "ecr:BatchGetImage",
     "ecr:GetDownloadUrlForLayer",
+    "ecr:ListImages",
   ]
 
   ecr_push_only_actions = [
     "ecr:CompleteLayerUpload",
     "ecr:InitiateLayerUpload",
-    "ecr:ListImages",
     "ecr:PutImage",
     "ecr:UploadLayerPart",
   ]

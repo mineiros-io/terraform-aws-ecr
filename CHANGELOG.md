@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Add `module_enabled`, `module_depends_on`, `module_tags` and all input variables as outputs
 
+### Changed
+
+- Move `ecr:ListImages` from `push_identities` instead of `push_identities`
+
 ### Removed
 
 - Remove redundant `ecr:GetAuthorizationToken` from `aws_ecr_repository_policy`
