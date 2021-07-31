@@ -16,11 +16,13 @@ resource "aws_ecr_repository" "repository" {
 
   name                 = var.name
   image_tag_mutability = var.immutable ? "IMMUTABLE" : "MUTABLE"
-  tags                 = var.tags
 
   image_scanning_configuration {
     scan_on_push = var.scan_on_push
   }
+
+  tags       = merge(var.module_tags, var.tags)
+  depends_on = [var.module_depends_on]
 }
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -37,20 +39,16 @@ locals {
   ecr_pull_actions = [
     "ecr:BatchCheckLayerAvailability",
     "ecr:BatchGetImage",
-    "ecr:GetAuthorizationToken",
     "ecr:GetDownloadUrlForLayer",
   ]
 
-  ecr_push_only_actions = [
+  ecr_push_actions = [
     "ecr:CompleteLayerUpload",
-    "ecr:GetAuthorizationToken",
     "ecr:InitiateLayerUpload",
     "ecr:ListImages",
     "ecr:PutImage",
     "ecr:UploadLayerPart",
   ]
-
-  ecr_push_actions = concat(local.ecr_push_only_actions, local.ecr_pull_actions)
 
   push_statement = length(var.push_identities) > 0 ? [{
     actions     = local.ecr_push_actions
@@ -75,7 +73,7 @@ data "aws_iam_policy_document" "policy" {
       sid     = try(statement.value.sid, null)
 
       dynamic "principals" {
-        for_each = try(statement.value.principals, null)
+        for_each = try(statement.value.principals, [])
 
         content {
           type        = try(principals.value.type, "AWS")
@@ -84,7 +82,7 @@ data "aws_iam_policy_document" "policy" {
       }
 
       dynamic "not_principals" {
-        for_each = try(statement.value.not_principals, null)
+        for_each = try(statement.value.not_principals, [])
 
         content {
           type        = try(not_principals.value.type, "AWS")
@@ -113,6 +111,8 @@ resource "aws_ecr_repository_policy" "repository_policy" {
 
   repository = try(aws_ecr_repository.repository[0].name, null)
   policy     = join("", data.aws_iam_policy_document.policy.*.json)
+
+  depends_on = [var.module_depends_on]
 }
 
 locals {
@@ -132,5 +132,7 @@ resource "aws_ecr_lifecycle_policy" "lifecycle_policy" {
 
   repository = try(aws_ecr_repository.repository[0].name, null)
   policy     = local.lifecycle_policy
+
+  depends_on = [var.module_depends_on]
 }
 
