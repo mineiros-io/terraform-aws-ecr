@@ -55,7 +55,8 @@ grant cross account pull or push access to the repository.
 
 - **Additional Features**:
   Grant pull access to AWS identities (cross account),
-  Grant pull&push access to AWS identities (crosss account)
+  Grant pull & push access to AWS identities (cross account),
+  Grant pull & push & ECR authentication access to AWS accounts (cross account)
 
 - *Features not yet implemented*:
   Easy lifecycle rule setup
@@ -149,7 +150,6 @@ See [variables.tf] and [examples/] for details and use-cases.
 
   A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
 
-
 #### Main Resource Configuration
 
 - **`name`**: **(Required `string`, Forces new resource)**
@@ -193,6 +193,18 @@ See [variables.tf] and [examples/] for details and use-cases.
 - **`push_identities`**: *(Optional `list(string)`)*
 
   List of AWS identity identifiers to grant cross account push access to.
+  Default is `[]`.
+
+- **`pull_accounts`**: *(Optional `list(string)`)*
+
+  List of AWS Account IDs to grant cross account pull access and
+  authentication access with ECR to.
+  Default is `[]`.
+
+- **`push_accounts`**: *(Optional `list(string)`)*
+
+  List of AWS Account IDs to grant cross account push access and
+  authentication access with ECR to.
   Default is `[]`.
 
 #### [`policy_statements`](#main-resource-configuration) Object Arguments

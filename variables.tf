@@ -61,13 +61,25 @@ variable "lifecycle_policy_rules" {
 
 variable "pull_identities" {
   type        = list(string)
-  description = "(Optional) List of AWS identity identifiers to grant cross account pull access to"
+  description = "(Optional) List of AWS identity identifiers to grant cross account pull access to."
   default     = []
 }
 
 variable "push_identities" {
   type        = list(string)
-  description = "(Optional) List of AWS identity identifiers to grant cross account pull and push access to"
+  description = "(Optional) List of AWS identity identifiers to grant cross account push access to."
+  default     = []
+}
+
+variable "pull_accounts" {
+  type        = list(string)
+  description = "(Optional) List of AWS Account IDs to grant cross account pull access to."
+  default     = []
+}
+
+variable "push_accounts" {
+  type        = list(string)
+  description = "(Optional) List of AWS Account IDs to grant cross account push access to."
   default     = []
 }
 

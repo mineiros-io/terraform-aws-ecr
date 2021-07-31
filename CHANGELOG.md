@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `pull_accounts` and `push_accounts` variables for providing a
+  convenient way of managing cross account pull and push access.
+
 ## [0.5.0]
 
 ### Breaking Changes

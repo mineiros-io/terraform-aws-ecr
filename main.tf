@@ -36,6 +36,10 @@ resource "aws_ecr_repository" "repository" {
 locals {
   policy_enabled = length(var.repository_policy_statements) > 0 || length(var.push_identities) > 0 || length(var.pull_identities) > 0
 
+  ecr_authentication_actions = [
+    "ecr:GetAuthorizationToken",
+  ]
+
   ecr_pull_actions = [
     "ecr:BatchCheckLayerAvailability",
     "ecr:BatchGetImage",
@@ -50,20 +54,49 @@ locals {
     "ecr:UploadLayerPart",
   ]
 
-  push_statement = length(var.push_identities) > 0 ? [{
+  # ---------------------------------------------------------------------------------------------------------------------
+  # (CROSS ACCOUNT IDENTITIES ACCESS
+  # Grant identities such as IAM users pull and/or push access
+  # to the repositories.
+  # ---------------------------------------------------------------------------------------------------------------------
+  pull_identites_statement = length(var.pull_identities) > 0 ? [{
+    actions     = local.ecr_pull_actions
+    identifiers = var.pull_identities
+  }] : []
+
+  push_identites_statement = length(var.push_identities) > 0 ? [{
     actions     = local.ecr_push_actions
     identifiers = var.push_identities
   }] : []
 
-  pull_statement = length(var.pull_identities) > 0 ? [{
-    actions     = local.ecr_pull_actions
-    identifiers = var.pull_identities
+  # ---------------------------------------------------------------------------------------------------------------------
+  # CROSS ACCOUNT ACCESS
+  # Account ids provided in 'pull_accounts' and 'push_accounts' will be added
+  # as principals with their related actions.
+  # Furthermore, the "ecr:GetAuthorizationToken" action to allow cross account
+  # authentication with ECR will be added.
+  # ---------------------------------------------------------------------------------------------------------------------
+  pull_cross_account_statement = length(var.pull_accounts) > 0 ? [{
+    actions = concat(
+      local.ecr_pull_actions,
+      local.ecr_authentication_actions
+    )
+    identifiers = var.pull_accounts
+  }] : []
+
+  push_cross_account_statement = length(var.push_accounts) > 0 ? [{
+    actions = concat(
+      local.ecr_push_actions,
+      local.ecr_authentication_actions
+    )
+    identifiers = var.push_accounts
   }] : []
 }
 
 data "aws_iam_policy_document" "policy" {
   count = var.module_enabled && local.policy_enabled ? 1 : 0
 
+  # Manage repository policies
   dynamic "statement" {
     for_each = var.repository_policy_statements
 
@@ -92,8 +125,14 @@ data "aws_iam_policy_document" "policy" {
     }
   }
 
+  # Manage identity and cross-account access
   dynamic "statement" {
-    for_each = concat(local.pull_statement, local.push_statement)
+    for_each = concat(
+      local.pull_identites_statement,
+      local.push_identites_statement,
+      local.pull_cross_account_statement,
+      local.push_cross_account_statement
+    )
 
     content {
       actions = statement.value.actions
