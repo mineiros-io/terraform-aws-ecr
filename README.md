@@ -71,7 +71,7 @@ or in github commits.
 ```hcl
 module "resource" {
   source  = "mineiros-io/ecr/aws"
-  version = "~> 0.4.0"
+  version = "~> 0.6.0"
 
   name = "example"
 }
@@ -84,7 +84,7 @@ principals such as an IAM user, you will need to request an authorization token
 that is used to access any Amazon ECR registry that your IAM principal has
 access to and is valid for 12 hours. To obtain an authorization token, you
 must use the GetAuthorizationToken API operation to retrieve a base64-encoded
-authorization token containing the username AWS and an encoded password. 
+authorization token containing the username AWS and an encoded password.
 
 Since `ecr:GetAuthorizationToken` does not support resource-level permissions,
 you'll need to grant `"Resource": "*"` to the `ecr:GetAuthorizationToken` action
@@ -99,7 +99,7 @@ IAM user.
 ```hcl
 module "ecr" {
   source  = "mineiros-io/ecr/aws"
-  version = "~> 0.4.0"
+  version = "~> 0.6.0"
 
   name            = "sample-repository"
   immutable       = true
@@ -111,7 +111,7 @@ module "ecr" {
 
 module "ci-user" {
   source  = "mineiros-io/iam-user/aws"
-  version = "~> 0.4.0"
+  version = "~> 0.6.0"
 
   names = ["ci.github-actions-ecr"]
 
