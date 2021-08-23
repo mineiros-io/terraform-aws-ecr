@@ -43,6 +43,7 @@ locals {
   ]
 
   ecr_push_actions = [
+    "ecr:BatchCheckLayerAvailability",
     "ecr:CompleteLayerUpload",
     "ecr:InitiateLayerUpload",
     "ecr:ListImages",
