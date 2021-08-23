@@ -12,7 +12,7 @@ A [Terraform] base module for creating an
 [Amazon Elastic Container Registry Repository (ECR)][ECR] on
 [Amazon Web Services (AWS)][AWS].
 
-***This module supports Terraform v0.14, v0.13 as well as v0.12.20 and above
+***This module supports Terraform v1.x, v0.15, v0.14, v0.13 as well as v0.12.20 and above
 and is compatible with the Terraform AWS provider v3 as well as v2.45 and above.***
 
 - [Module Features](#module-features)
@@ -71,7 +71,7 @@ or in github commits.
 ```hcl
 module "resource" {
   source  = "mineiros-io/ecr/aws"
-  version = "~> 0.4.0"
+  version = "~> 0.6.0"
 
   name = "example"
 }
@@ -84,7 +84,7 @@ principals such as an IAM user, you will need to request an authorization token
 that is used to access any Amazon ECR registry that your IAM principal has
 access to and is valid for 12 hours. To obtain an authorization token, you
 must use the GetAuthorizationToken API operation to retrieve a base64-encoded
-authorization token containing the username AWS and an encoded password. 
+authorization token containing the username AWS and an encoded password.
 
 Since `ecr:GetAuthorizationToken` does not support resource-level permissions,
 you'll need to grant `"Resource": "*"` to the `ecr:GetAuthorizationToken` action
@@ -99,7 +99,7 @@ IAM user.
 ```hcl
 module "ecr" {
   source  = "mineiros-io/ecr/aws"
-  version = "~> 0.4.0"
+  version = "~> 0.6.0"
 
   name            = "sample-repository"
   immutable       = true
@@ -111,7 +111,7 @@ module "ecr" {
 
 module "ci-user" {
   source  = "mineiros-io/iam-user/aws"
-  version = "~> 0.4.0"
+  version = "~> 0.6.0"
 
   names = ["ci.github-actions-ecr"]
 
@@ -412,7 +412,7 @@ Copyright &copy; 2021 [Mineiros GmbH][homepage]
 [badge-build]: https://github.com/mineiros-io/terraform-aws-ecr/workflows/CI/CD%20Pipeline/badge.svg
 [badge-semver]: https://img.shields.io/github/v/tag/mineiros-io/terraform-aws-ecr.svg?label=latest&sort=semver
 [badge-license]: https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg
-[badge-terraform]: https://img.shields.io/badge/terraform-0.15%20|%200.14%20|%200.13%20|%200.12.20+-623CE4.svg?logo=terraform
+[badge-terraform]: https://img.shields.io/badge/terraform-1.x%20|%200.15%20|%200.14%20|%200.13%20|%200.12.20+-623CE4.svg?logo=terraform
 [badge-slack]: https://img.shields.io/badge/slack-@mineiros--community-f32752.svg?logo=slack
 
 [build-status]: https://github.com/mineiros-io/terraform-aws-ecr/actions
