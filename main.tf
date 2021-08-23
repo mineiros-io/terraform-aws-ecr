@@ -136,4 +136,3 @@ resource "aws_ecr_lifecycle_policy" "lifecycle_policy" {
 
   depends_on = [var.module_depends_on]
 }
-
