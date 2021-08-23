@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Add missing `ecr:BatchCheckLayerAvailability` to push statements
+
 ## [0.5.0]
 
 ### Breaking Changes
