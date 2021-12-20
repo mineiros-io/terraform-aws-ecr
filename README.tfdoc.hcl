@@ -277,8 +277,8 @@ section {
               type        = list(string)
               description = <<-END
                 List of identifiers for principals.
-                      When type is "AWS", these are IAM user or role ARNs.
-                      When type is "Service", these are AWS Service roles e.g. `lambda.amazonaws.com`.
+                When type is "AWS", these are IAM user or role ARNs.
+                When type is "Service", these are AWS Service roles e.g. `lambda.amazonaws.com`.
               END
             }
           }
