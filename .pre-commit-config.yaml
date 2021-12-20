@@ -9,4 +9,3 @@ repos:
       - id: golangci-lint
         args: ['--timeout', '5m']
       - id: phony-targets
-      - id: markdown-link-check
