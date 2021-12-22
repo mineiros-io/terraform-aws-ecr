@@ -305,15 +305,15 @@ section {
             readme_type = "integer"
             description = <<-END
               Sets the order in which rules are evaluated, lowest to highest.
-                  A lifecycle policy rule with a priority of `1` will be acted upon first,
-                  a rule with priority of `2` will be next, and so on.
-                  When you add rules to a lifecycle policy,
-                  you must give them each a unique value for `rulePriority`.
-                  Values do not need to be sequential across rules in a policy.
-                  A rule with a `tagStatus` value of any must have the highest value for `rulePriority` and be evaluated last.
-                  **Note:** The AWS ECR API seems to reorder rules based on `rulePriority`.
-                  If you define multiple rules that are not sorted in ascending `rulePriority` order in the Terraform code,
-                  the resource will be flagged for recreation every terraform plan.
+              A lifecycle policy rule with a priority of `1` will be acted upon first,
+              a rule with priority of `2` will be next, and so on.
+              When you add rules to a lifecycle policy,
+              you must give them each a unique value for `rulePriority`.
+              Values do not need to be sequential across rules in a policy.
+              A rule with a `tagStatus` value of any must have the highest value for `rulePriority` and be evaluated last.
+              **Note:** The AWS ECR API seems to reorder rules based on `rulePriority`.
+              If you define multiple rules that are not sorted in ascending `rulePriority` order in the Terraform code,
+              the resource will be flagged for recreation every terraform plan.
             END
           }
 

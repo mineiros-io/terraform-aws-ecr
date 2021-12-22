@@ -218,8 +218,8 @@ See [variables.tf] and [examples/] for details and use-cases.
     - [**`identifiers`**](#attr-identifiers-principals-repository_policy_statements): *(**Required** `list(string)`)*<a name="attr-identifiers-principals-repository_policy_statements"></a>
 
       List of identifiers for principals.
-            When type is "AWS", these are IAM user or role ARNs.
-            When type is "Service", these are AWS Service roles e.g. `lambda.amazonaws.com`.
+      When type is "AWS", these are IAM user or role ARNs.
+      When type is "Service", these are AWS Service roles e.g. `lambda.amazonaws.com`.
 
   - [**`not_principals`**](#attr-not_principals-repository_policy_statements): *(Optional `list(principal)`)*<a name="attr-not_principals-repository_policy_statements"></a>
 
@@ -236,15 +236,15 @@ See [variables.tf] and [examples/] for details and use-cases.
   - [**`rulePriority`**](#attr-rulePriority-lifecycle_policy_rules): *(Optional `integer`)*<a name="attr-rulePriority-lifecycle_policy_rules"></a>
 
     Sets the order in which rules are evaluated, lowest to highest.
-        A lifecycle policy rule with a priority of `1` will be acted upon first,
-        a rule with priority of `2` will be next, and so on.
-        When you add rules to a lifecycle policy,
-        you must give them each a unique value for `rulePriority`.
-        Values do not need to be sequential across rules in a policy.
-        A rule with a `tagStatus` value of any must have the highest value for `rulePriority` and be evaluated last.
-        **Note:** The AWS ECR API seems to reorder rules based on `rulePriority`.
-        If you define multiple rules that are not sorted in ascending `rulePriority` order in the Terraform code,
-        the resource will be flagged for recreation every terraform plan.
+    A lifecycle policy rule with a priority of `1` will be acted upon first,
+    a rule with priority of `2` will be next, and so on.
+    When you add rules to a lifecycle policy,
+    you must give them each a unique value for `rulePriority`.
+    Values do not need to be sequential across rules in a policy.
+    A rule with a `tagStatus` value of any must have the highest value for `rulePriority` and be evaluated last.
+    **Note:** The AWS ECR API seems to reorder rules based on `rulePriority`.
+    If you define multiple rules that are not sorted in ascending `rulePriority` order in the Terraform code,
+    the resource will be flagged for recreation every terraform plan.
 
   - [**`description`**](#attr-description-lifecycle_policy_rules): *(Optional `string`)*<a name="attr-description-lifecycle_policy_rules"></a>
 
