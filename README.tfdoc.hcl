@@ -167,7 +167,7 @@ section {
           type        = map(string)
           default     = {}
           description = <<-END
-            A map of tags that will be applied to all created resources that accept tags. Tags defined with 'module_tags' can be overwritten by resource-specific tags.
+            A map of tags that will be applied to all created resources that accept tags. Tags defined with `module_tags` can be overwritten by resource-specific tags.
           END
         }
 
