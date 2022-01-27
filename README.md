@@ -142,11 +142,11 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 - [**`module_tags`**](#var-module_tags): *(Optional `map(string)`)*<a name="var-module_tags"></a>
 
-  A map of tags that will be applied to all created resources that accept tags. Tags defined with 'module_tags' can be overwritten by resource-specific tags.
+  A map of tags that will be applied to all created resources that accept tags. Tags defined with `module_tags` can be overwritten by resource-specific tags.
 
   Default is `{}`.
 
-- [**`module_depends_on`**](#var-module_depends_on): *(Optional `list(dependencies)`)*<a name="var-module_depends_on"></a>
+- [**`module_depends_on`**](#var-module_depends_on): *(Optional `list(dependency)`)*<a name="var-module_depends_on"></a>
 
   A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
 
@@ -176,64 +176,64 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 #### Extended Resource configuration
 
-- [**`repository_policy_statements`**](#var-repository_policy_statements): *(Optional `list(policy_statements)`)*<a name="var-repository_policy_statements"></a>
+- [**`repository_policy_statements`**](#var-repository_policy_statements): *(Optional `list(policy_statement)`)*<a name="var-repository_policy_statements"></a>
 
   List of statements of the repository policy.
 
   Default is `[]`.
 
-  The object accepts the following attributes:
+  Each `policy_statement` object in the list accepts the following attributes:
 
-  - [**`sid`**](#attr-sid-repository_policy_statements): *(Optional `string`)*<a name="attr-sid-repository_policy_statements"></a>
+  - [**`sid`**](#attr-repository_policy_statements-sid): *(Optional `string`)*<a name="attr-repository_policy_statements-sid"></a>
 
     An ID for the policy statement.
 
-  - [**`effect`**](#attr-effect-repository_policy_statements): *(Optional `string`)*<a name="attr-effect-repository_policy_statements"></a>
+  - [**`effect`**](#attr-repository_policy_statements-effect): *(Optional `string`)*<a name="attr-repository_policy_statements-effect"></a>
 
     Either "Allow" or "Deny", to specify whether this statement allows or denies the given actions.
 
     Default is `"Allow"`.
 
-  - [**`actions`**](#attr-actions-repository_policy_statements): *(Optional `list(string)`)*<a name="attr-actions-repository_policy_statements"></a>
+  - [**`actions`**](#attr-repository_policy_statements-actions): *(Optional `list(string)`)*<a name="attr-repository_policy_statements-actions"></a>
 
     A list of actions that this statement either allows or denies.
 
-  - [**`not_actions`**](#attr-not_actions-repository_policy_statements): *(Optional `list(string)`)*<a name="attr-not_actions-repository_policy_statements"></a>
+  - [**`not_actions`**](#attr-repository_policy_statements-not_actions): *(Optional `list(string)`)*<a name="attr-repository_policy_statements-not_actions"></a>
 
     A list of actions that this statement does not apply to.
     Used to apply a policy statement to all actions except those listed.
 
-  - [**`principals`**](#attr-principals-repository_policy_statements): *(Optional `list(principal)`)*<a name="attr-principals-repository_policy_statements"></a>
+  - [**`principals`**](#attr-repository_policy_statements-principals): *(Optional `list(principal)`)*<a name="attr-repository_policy_statements-principals"></a>
 
     A nested configuration block (described below) specifying a resource (or resource pattern) to which this statement applies.
 
-    The object accepts the following attributes:
+    Each `principal` object in the list accepts the following attributes:
 
-    - [**`type`**](#attr-type-principals-repository_policy_statements): *(Optional `string`)*<a name="attr-type-principals-repository_policy_statements"></a>
+    - [**`type`**](#attr-repository_policy_statements-principals-type): *(Optional `string`)*<a name="attr-repository_policy_statements-principals-type"></a>
 
       The type of principal. For AWS ARNs this is "AWS". For AWS services (e.g. Lambda), this is "Service".
 
       Default is `"AWS"`.
 
-    - [**`identifiers`**](#attr-identifiers-principals-repository_policy_statements): *(**Required** `list(string)`)*<a name="attr-identifiers-principals-repository_policy_statements"></a>
+    - [**`identifiers`**](#attr-repository_policy_statements-principals-identifiers): *(**Required** `list(string)`)*<a name="attr-repository_policy_statements-principals-identifiers"></a>
 
       List of identifiers for principals.
       When type is "AWS", these are IAM user or role ARNs.
       When type is "Service", these are AWS Service roles e.g. `lambda.amazonaws.com`.
 
-  - [**`not_principals`**](#attr-not_principals-repository_policy_statements): *(Optional `list(principal)`)*<a name="attr-not_principals-repository_policy_statements"></a>
+  - [**`not_principals`**](#attr-repository_policy_statements-not_principals): *(Optional `list(principal)`)*<a name="attr-repository_policy_statements-not_principals"></a>
 
     Like principals except gives resources that the statement does not apply to.
 
-- [**`lifecycle_policy_rules`**](#var-lifecycle_policy_rules): *(Optional `list(lifecycle_policy_rules)`)*<a name="var-lifecycle_policy_rules"></a>
+- [**`lifecycle_policy_rules`**](#var-lifecycle_policy_rules): *(Optional `list(lifecycle_policy_rule)`)*<a name="var-lifecycle_policy_rules"></a>
 
   List of lifecycle policy rules.
 
   Default is `[]`.
 
-  The object accepts the following attributes:
+  Each `lifecycle_policy_rule` object in the list accepts the following attributes:
 
-  - [**`rulePriority`**](#attr-rulePriority-lifecycle_policy_rules): *(Optional `integer`)*<a name="attr-rulePriority-lifecycle_policy_rules"></a>
+  - [**`rulePriority`**](#attr-lifecycle_policy_rules-rulePriority): *(Optional `number`)*<a name="attr-lifecycle_policy_rules-rulePriority"></a>
 
     Sets the order in which rules are evaluated, lowest to highest.
     A lifecycle policy rule with a priority of `1` will be acted upon first,
@@ -246,17 +246,17 @@ See [variables.tf] and [examples/] for details and use-cases.
     If you define multiple rules that are not sorted in ascending `rulePriority` order in the Terraform code,
     the resource will be flagged for recreation every terraform plan.
 
-  - [**`description`**](#attr-description-lifecycle_policy_rules): *(Optional `string`)*<a name="attr-description-lifecycle_policy_rules"></a>
+  - [**`description`**](#attr-lifecycle_policy_rules-description): *(Optional `string`)*<a name="attr-lifecycle_policy_rules-description"></a>
 
     Describes the purpose of a rule within a lifecycle policy.
 
-  - [**`selection`**](#attr-selection-lifecycle_policy_rules): *(Optional `selection`)*<a name="attr-selection-lifecycle_policy_rules"></a>
+  - [**`selection`**](#attr-lifecycle_policy_rules-selection): *(Optional `object(selection)`)*<a name="attr-lifecycle_policy_rules-selection"></a>
 
     A `selection` object.
 
-    The object accepts the following attributes:
+    The `selection` object accepts the following attributes:
 
-    - [**`tagStatus`**](#attr-tagStatus-selection-lifecycle_policy_rules): *(**Required** `string`)*<a name="attr-tagStatus-selection-lifecycle_policy_rules"></a>
+    - [**`tagStatus`**](#attr-lifecycle_policy_rules-selection-tagStatus): *(**Required** `string`)*<a name="attr-lifecycle_policy_rules-selection-tagStatus"></a>
 
       Determines whether the lifecycle policy rule that you are adding specifies a tag for an image.
       Acceptable options are tagged, untagged, or any.
@@ -264,7 +264,7 @@ See [variables.tf] and [examples/] for details and use-cases.
       If you specify `"tagged"`, then you must also specify a `tagPrefixList` value.
       If you specify `"untagged"`, then you must omit `tagPrefixList`.
 
-    - [**`tagPrefixList`**](#attr-tagPrefixList-selection-lifecycle_policy_rules): *(**Required** `list(string)`)*<a name="attr-tagPrefixList-selection-lifecycle_policy_rules"></a>
+    - [**`tagPrefixList`**](#attr-lifecycle_policy_rules-selection-tagPrefixList): *(**Required** `list(string)`)*<a name="attr-lifecycle_policy_rules-selection-tagPrefixList"></a>
 
       Only used if you specified `tagStatus`: `"tagged"`.
       You must specify a comma-separated list of image tag prefixes on which to take action with your lifecycle policy.
@@ -272,7 +272,7 @@ See [variables.tf] and [examples/] for details and use-cases.
       you would use the tag prefix `prod` to specify all of them.
       If you specify multiple tags, only the images with all specified tags are selected.
 
-    - [**`countType`**](#attr-countType-selection-lifecycle_policy_rules): *(**Required** `string`)*<a name="attr-countType-selection-lifecycle_policy_rules"></a>
+    - [**`countType`**](#attr-lifecycle_policy_rules-selection-countType): *(**Required** `string`)*<a name="attr-lifecycle_policy_rules-selection-countType"></a>
 
       Specify a count type to apply to the images.
       If `countType` is set to `"imageCountMoreThan"`,
@@ -282,30 +282,30 @@ See [variables.tf] and [examples/] for details and use-cases.
       you also specify `countUnit` and `countNumber` to specify a time limit on
       the images that exist in your repository.
 
-    - [**`countUnit`**](#attr-countUnit-selection-lifecycle_policy_rules): *(**Required** `string`)*<a name="attr-countUnit-selection-lifecycle_policy_rules"></a>
+    - [**`countUnit`**](#attr-lifecycle_policy_rules-selection-countUnit): *(**Required** `string`)*<a name="attr-lifecycle_policy_rules-selection-countUnit"></a>
 
       Specify a count unit of days to indicate that as the unit of time, in addition to `countNumber`, which is the number of days.
-      
+
       This should only be specified when `countType` is `"sinceImagePushed"`;
       an error will occur if you specify a count unit when `countType` is any other value.
 
-    - [**`countNumber`**](#attr-countNumber-selection-lifecycle_policy_rules): *(**Required** `number`)*<a name="attr-countNumber-selection-lifecycle_policy_rules"></a>
+    - [**`countNumber`**](#attr-lifecycle_policy_rules-selection-countNumber): *(**Required** `number`)*<a name="attr-lifecycle_policy_rules-selection-countNumber"></a>
 
       Specify a count number.
       Acceptable values are positive integers (0 is not an accepted value).
-      
+
       If the `countType` used is `"imageCountMoreThan"`,
       then the value is the maximum number of images that you want to retain in your repository.
       If the `countType` used is `"sinceImagePushed"`,
       then the value is the maximum age limit for your images.
 
-  - [**`action`**](#attr-action-lifecycle_policy_rules): *(Optional `action`)*<a name="attr-action-lifecycle_policy_rules"></a>
+  - [**`action`**](#attr-lifecycle_policy_rules-action): *(Optional `object(action)`)*<a name="attr-lifecycle_policy_rules-action"></a>
 
     An `action` object.
 
-    The object accepts the following attributes:
+    The `action` object accepts the following attributes:
 
-    - [**`type`**](#attr-type-action-lifecycle_policy_rules): *(**Required** `string`)*<a name="attr-type-action-lifecycle_policy_rules"></a>
+    - [**`type`**](#attr-lifecycle_policy_rules-action-type): *(**Required** `string`)*<a name="attr-lifecycle_policy_rules-action-type"></a>
 
       Specify an action type. The supported value is expire.
 
@@ -327,17 +327,17 @@ See [variables.tf] and [examples/] for details and use-cases.
 
 The following attributes are exported by the module:
 
-- **`repository`**
+- [**`repository`**](#output-repository): *(`object(repository)`)*<a name="output-repository"></a>
 
-  The original resource [`aws_ecr_repository`] resource.
+  The `aws_ecr_repository` resource.
 
-- **`repository_policy`**
+- [**`repository_policy`**](#output-repository_policy): *(`object(repository_policy)`)*<a name="output-repository_policy"></a>
 
-  The original resource [`aws_ecr_repository_policy`] resource.
+  The `aws_ecr_repository_policy` resource.
 
-- **`lifecycle_policy`**
+- [**`lifecycle_policy`**](#output-lifecycle_policy): *(`list(lifecycle_policy)`)*<a name="output-lifecycle_policy"></a>
 
-  The original resource [`aws_ecr_lifecycle_policy`] resource.
+  The `aws_ecr_lifecycle_policy` resource.
 
 ## External Documentation
 

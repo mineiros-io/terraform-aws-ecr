@@ -172,8 +172,7 @@ section {
         }
 
         variable "module_depends_on" {
-          type        = any
-          readme_type = "list(dependencies)"
+          type        = list(dependency)
           description = <<-END
             A list of dependencies. Any object can be _assigned_ to this list to define a hidden external dependency.
           END
@@ -220,8 +219,7 @@ section {
         title = "Extended Resource configuration"
 
         variable "repository_policy_statements" {
-          type        = any
-          readme_type = "list(policy_statements)"
+          type        = list(policy_statement)
           default     = []
           description = <<-END
             List of statements of the repository policy.
@@ -258,8 +256,7 @@ section {
           }
 
           attribute "principals" {
-            type        = any
-            readme_type = "list(principal)"
+            type        = list(principal)
             description = <<-END
               A nested configuration block (described below) specifying a resource (or resource pattern) to which this statement applies.
             END
@@ -284,8 +281,7 @@ section {
           }
 
           attribute "not_principals" {
-            type        = any
-            readme_type = "list(principal)"
+            type        = list(principal)
             description = <<-END
               Like principals except gives resources that the statement does not apply to.
             END
@@ -293,16 +289,14 @@ section {
         }
 
         variable "lifecycle_policy_rules" {
-          type        = any
-          readme_type = "list(lifecycle_policy_rules)"
+          type        = list(lifecycle_policy_rule)
           default     = []
           description = <<-END
             List of lifecycle policy rules.
           END
 
           attribute "rulePriority" {
-            type        = any
-            readme_type = "integer"
+            type        = number
             description = <<-END
               Sets the order in which rules are evaluated, lowest to highest.
               A lifecycle policy rule with a priority of `1` will be acted upon first,
@@ -325,8 +319,7 @@ section {
           }
 
           attribute "selection" {
-            type        = any
-            readme_type = "selection"
+            type        = object(selection)
             description = <<-END
               A `selection` object.
             END
@@ -396,8 +389,7 @@ section {
           }
 
           attribute "action" {
-            type        = any
-            readme_type = "action"
+            type        = object(action)
             description = <<-END
               An `action` object.
             END
@@ -439,19 +431,28 @@ section {
     title   = "Module Outputs"
     content = <<-END
       The following attributes are exported by the module:
-
-      - **`repository`**
-
-        The original resource [`aws_ecr_repository`] resource.
-
-      - **`repository_policy`**
-
-        The original resource [`aws_ecr_repository_policy`] resource.
-
-      - **`lifecycle_policy`**
-
-        The original resource [`aws_ecr_lifecycle_policy`] resource.
     END
+
+    output "repository" {
+      type        = object(repository)
+      description = <<-END
+        The `aws_ecr_repository` resource.
+      END
+    }
+
+    output "repository_policy" {
+      type        = object(repository_policy)
+      description = <<-END
+        The `aws_ecr_repository_policy` resource.
+      END
+    }
+
+    output "lifecycle_policy" {
+      type        = list(lifecycle_policy)
+      description = <<-END
+        The `aws_ecr_lifecycle_policy` resource.
+      END
+    }
   }
 
   section {
