@@ -70,8 +70,7 @@ or in github commits.
 
 ```hcl
 module "resource" {
-  source  = "mineiros-io/ecr/aws"
-  version = "~> 0.6.0"
+  source  = "git@github.com:mineiros-io/terraform-aws-ecr.git?ref=v0.6.0"
 
   name = "example"
 }
